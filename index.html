@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open India EPD Database</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #21262d;
+    --accent: #3fb950;
+    --accent-dim: #1a4a26;
+    --text: #e6edf3;
+    --text-muted: #7d8590;
+    --text-dim: #484f58;
+    --tag-bg: #1c2128;
+    --highlight: #f78166;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Grid background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(63,185,80,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(63,185,80,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Header ── */
+  header {
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    padding: 4px 10px;
+    margin-bottom: 20px;
+    background: rgba(63,185,80,0.05);
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Search bar ── */
+  .search-section {
+    padding: 32px 0 24px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .search-wrap {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .search-input-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 11px 14px 11px 38px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input[type="text"]:focus {
+    border-color: var(--accent);
+  }
+
+  input[type="text"]::placeholder {
+    color: var(--text-dim);
+  }
+
+  select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 11px 14px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  select:focus { border-color: var(--accent); }
+
+  .result-count {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* ── Table ── */
+  .table-section { padding: 24px 0 60px; }
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  thead {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+  }
+
+  th:hover { color: var(--accent); }
+
+  th.sorted { color: var(--accent); }
+
+  th .sort-arrow {
+    margin-left: 4px;
+    opacity: 0.5;
+  }
+
+  th.sorted .sort-arrow { opacity: 1; }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+
+  tbody tr:hover { background: var(--surface); }
+
+  tbody tr:last-child { border-bottom: none; }
+
+  td {
+    padding: 14px 16px;
+    color: var(--text);
+    line-height: 1.5;
+    vertical-align: top;
+  }
+
+  .td-name {
+    font-weight: 500;
+    max-width: 200px;
+    color: var(--text);
+  }
+
+  .td-manufacturer {
+    color: var(--text-muted);
+    max-width: 160px;
+    font-size: 11px;
+  }
+
+  .td-gwp {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .td-gwp-unit {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .category-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 8px;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .stages-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 8px;
+    background: rgba(63,185,80,0.08);
+    border: 1px solid var(--accent-dim);
+    color: var(--accent);
+  }
+
+  .source-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 11px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .source-link:hover { opacity: 1; }
+
+  /* ── Empty state ── */
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+  }
+
+  .empty-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+    opacity: 0.3;
+  }
+
+  .empty-state h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: var(--text-dim);
+  }
+
+  /* ── Contribute banner ── */
+  .contribute-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    margin: 0 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .contribute-text {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .contribute-text strong {
+    color: var(--text);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 13px;
+  }
+
+  .btn-contribute {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 8px 16px;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .btn-contribute:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 16px;
+  }
+
+  .footer-left {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  .footer-left a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .footer-left a:hover { color: var(--accent); }
+
+  .footer-right {
+    display: flex;
+    gap: 16px;
+  }
+
+  .footer-link {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-link:hover { color: var(--accent); }
+
+  /* ── Loading ── */
+  .loading {
+    text-align: center;
+    padding: 60px;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  .loading::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Animations ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  tbody tr {
+    animation: fadeIn 0.2s ease both;
+  }
+
+  /* ── No data notice ── */
+  .no-data-notice {
+    background: rgba(247,129,102,0.05);
+    border: 1px solid rgba(247,129,102,0.2);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 12px;
+    color: var(--highlight);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="header-tag">🇮🇳 Open Data · CC0 License · Free Forever</div>
+    <h1>India's Open<br><em>EPD Database</em></h1>
+    <p class="subtitle">
+      Environmental Product Declarations for Indian building materials —
+      searchable, open-access, and community-contributed.
+      No paywall. No registration. Just data.
+    </p>
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-num" id="total-count">—</span>
+        <span class="stat-label">EPDs indexed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="category-count">—</span>
+        <span class="stat-label">Material categories</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="manufacturer-count">—</span>
+        <span class="stat-label">Manufacturers</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Search -->
+  <div class="search-section">
+    <div class="search-wrap">
+      <div class="search-input-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="search" placeholder="Search by material, manufacturer, registration number...">
+      </div>
+      <select id="category-filter">
+        <option value="">All categories</option>
+      </select>
+      <select id="stage-filter">
+        <option value="">All stages</option>
+        <option value="A1-A3">A1-A3</option>
+        <option value="A1-A4">A1-A4</option>
+        <option value="A1-A3,C">A1-A3 + C</option>
+      </select>
+      <span class="result-count" id="result-count"></span>
+    </div>
+  </div>
+
+  <!-- Table section -->
+  <div class="table-section">
+
+    <div class="contribute-banner">
+      <div class="contribute-text">
+        <strong>Know an Indian EPD that's missing?</strong>
+        Submit it via GitHub — manufacturers, LCA practitioners, and researchers welcome.
+        Every entry expands India's embodied carbon data layer.
+      </div>
+      <a class="btn-contribute" href="https://github.com/YOUR_USERNAME/open-epd-india/issues/new?template=epd_submission.md" target="_blank">
+        + Submit EPD
+      </a>
+    </div>
+
+    <div id="table-container">
+      <div class="loading">Loading EPD data</div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-left">
+      Built by <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank">Gokul Krishna T.B.</a>
+      · Data: CC0 Public Domain · Code: MIT<br>
+      Source: <a href="https://www.environdec.com" target="_blank">International EPD System</a>
+      · Last updated: <span id="last-updated">—</span>
+    </div>
+    <div class="footer-right">
+      <a class="footer-link" href="https://github.com/YOUR_USERNAME/open-epd-india" target="_blank">GitHub</a>
+      <a class="footer-link" href="https://github.com/YOUR_USERNAME/open-epd-india/raw/main/india_epds.csv" target="_blank">Download CSV</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// ── Data loading ────────────────────────────────────────────────────────────
+let allEPDs = [];
+let filtered = [];
+let sortCol = null;
+let sortAsc = true;
+
+// Load CSV from same repo
+async function loadData() {
+  try {
+    const response = await fetch('india_epds.csv');
+    if (!response.ok) throw new Error('CSV not found');
+    const text = await response.text();
+    allEPDs = parseCSV(text);
+    filtered = [...allEPDs];
+    updateStats();
+    populateFilters();
+    renderTable(filtered);
+  } catch (e) {
+    // Show demo data if CSV not loaded yet
+    showNoDataNotice();
+    renderTable([]);
+  }
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) return [];
+  const headers = parseCSVLine(lines[0]);
+  return lines.slice(1).map(line => {
+    const values = parseCSVLine(line);
+    const obj = {};
+    headers.forEach((h, i) => obj[h.trim()] = (values[i] || '').trim());
+    return obj;
+  }).filter(r => r.material_name && r.material_name !== 'Unknown');
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      inQuotes = !inQuotes;
+    } else if (ch === ',' && !inQuotes) {
+      result.push(current);
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+function updateStats() {
+  document.getElementById('total-count').textContent = allEPDs.length;
+  const cats = new Set(allEPDs.map(e => e.material_category).filter(Boolean));
+  document.getElementById('category-count').textContent = cats.size;
+  const mfrs = new Set(allEPDs.map(e => e.manufacturer_name).filter(Boolean));
+  document.getElementById('manufacturer-count').textContent = mfrs.size;
+  document.getElementById('last-updated').textContent = new Date().toLocaleDateString('en-IN', {month:'short', year:'numeric'});
+}
+
+function populateFilters() {
+  const cats = [...new Set(allEPDs.map(e => e.material_category).filter(Boolean))].sort();
+  const sel = document.getElementById('category-filter');
+  cats.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat;
+    opt.textContent = cat;
+    sel.appendChild(opt);
+  });
+}
+
+// ── Filtering ───────────────────────────────────────────────────────────────
+function applyFilters() {
+  const query = document.getElementById('search').value.toLowerCase();
+  const cat   = document.getElementById('category-filter').value;
+  const stage = document.getElementById('stage-filter').value;
+
+  filtered = allEPDs.filter(epd => {
+    const matchSearch = !query ||
+      (epd.material_name || '').toLowerCase().includes(query) ||
+      (epd.manufacturer_name || '').toLowerCase().includes(query) ||
+      (epd.registration_number || '').toLowerCase().includes(query) ||
+      (epd.material_category || '').toLowerCase().includes(query);
+    const matchCat   = !cat   || epd.material_category === cat;
+    const matchStage = !stage || (epd.life_cycle_stages || '').includes(stage);
+    return matchSearch && matchCat && matchStage;
+  });
+
+  if (sortCol) applySort();
+  renderTable(filtered);
+
+  const count = document.getElementById('result-count');
+  count.textContent = filtered.length === allEPDs.length
+    ? `${allEPDs.length} EPDs`
+    : `${filtered.length} of ${allEPDs.length} EPDs`;
+}
+
+// ── Sorting ─────────────────────────────────────────────────────────────────
+function applySort() {
+  filtered.sort((a, b) => {
+    let va = a[sortCol] || '';
+    let vb = b[sortCol] || '';
+    if (sortCol === 'gwp_a1a3') {
+      va = parseFloat(va) || 0;
+      vb = parseFloat(vb) || 0;
+      return sortAsc ? va - vb : vb - va;
+    }
+    return sortAsc
+      ? va.toString().localeCompare(vb.toString())
+      : vb.toString().localeCompare(va.toString());
+  });
+}
+
+function sortBy(col) {
+  if (sortCol === col) {
+    sortAsc = !sortAsc;
+  } else {
+    sortCol = col;
+    sortAsc = true;
+  }
+  applyFilters();
+  document.querySelectorAll('th').forEach(th => th.classList.remove('sorted'));
+  const th = document.querySelector(`th[data-col="${col}"]`);
+  if (th) {
+    th.classList.add('sorted');
+    th.querySelector('.sort-arrow').textContent = sortAsc ? '↑' : '↓';
+  }
+}
+
+// ── Rendering ───────────────────────────────────────────────────────────────
+function renderTable(epds) {
+  const container = document.getElementById('table-container');
+
+  if (epds.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">◎</div>
+        <h3>No EPDs found</h3>
+        <p>Try adjusting your search or filters</p>
+      </div>`;
+    return;
+  }
+
+  const rows = epds.map((epd, i) => {
+    const gwp = epd.gwp_a1a3 ? parseFloat(epd.gwp_a1a3).toFixed(3) : '—';
+    const unit = epd.gwp_unit || 'kg CO2 eq';
+    const stages = epd.life_cycle_stages || '—';
+    const url = epd.epd_url || '#';
+    const delay = Math.min(i * 20, 300);
+
+    return `<tr style="animation-delay:${delay}ms" onclick="window.open('${url}','_blank')">
+      <td class="td-name">${epd.material_name || '—'}</td>
+      <td><span class="category-tag">${epd.material_category || '—'}</span></td>
+      <td class="td-manufacturer">${epd.manufacturer_name || '—'}</td>
+      <td class="td-gwp">
+        ${gwp}
+        <span class="td-gwp-unit">${unit}</span>
+      </td>
+      <td><span class="stages-tag">${stages}</span></td>
+      <td>${epd.year_published || '—'}</td>
+      <td>${epd.registration_number || '—'}</td>
+      <td><a class="source-link" href="${url}" target="_blank" onclick="event.stopPropagation()">View →</a></td>
+    </tr>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-col="material_name" onclick="sortBy('material_name')">Material <span class="sort-arrow">↕</span></th>
+            <th data-col="material_category" onclick="sortBy('material_category')">Category <span class="sort-arrow">↕</span></th>
+            <th data-col="manufacturer_name" onclick="sortBy('manufacturer_name')">Manufacturer <span class="sort-arrow">↕</span></th>
+            <th data-col="gwp_a1a3" onclick="sortBy('gwp_a1a3')">GWP A1-A3 <span class="sort-arrow">↕</span></th>
+            <th>Stages</th>
+            <th data-col="year_published" onclick="sortBy('year_published')">Year <span class="sort-arrow">↕</span></th>
+            <th>Reg. No.</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function showNoDataNotice() {
+  const section = document.querySelector('.table-section');
+  const notice = document.createElement('div');
+  notice.className = 'no-data-notice';
+  notice.innerHTML = `
+    <strong>Data file not loaded.</strong> Run <code>fetch_india_epds.py</code> to generate
+    <code>india_epds.csv</code>, then push both files to the same GitHub repository.
+    The table will populate automatically.`;
+  section.insertBefore(notice, section.firstChild);
+}
+
+// ── Event listeners ─────────────────────────────────────────────────────────
+document.getElementById('search').addEventListener('input', applyFilters);
+document.getElementById('category-filter').addEventListener('change', applyFilters);
+document.getElementById('stage-filter').addEventListener('change', applyFilters);
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
