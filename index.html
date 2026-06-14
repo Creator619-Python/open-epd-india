@@ -630,6 +630,15 @@
         <option value="A1-A4">A1-A4</option>
         <option value="A1-A3,C">A1-A3 + C</option>
       </select>
+      <select id="gwp-filter">
+        <option value="">All GWP ranges</option>
+        <option value="0-1">Under 1 kg CO2 eq</option>
+        <option value="1-10">1 – 10 kg CO2 eq</option>
+        <option value="10-100">10 – 100 kg CO2 eq</option>
+        <option value="100-1000">100 – 1,000 kg CO2 eq</option>
+        <option value="1000-99999999">Over 1,000 kg CO2 eq</option>
+        <option value="none">GWP not available</option>
+      </select>
       <span class="result-count" id="result-count"></span>
     </div>
   </div>
@@ -832,6 +841,7 @@ function applyFilters() {
   const query = document.getElementById('search').value.toLowerCase();
   const cat   = document.getElementById('category-filter').value;
   const stage = document.getElementById('stage-filter').value;
+  const gwpRange = document.getElementById('gwp-filter').value;
 
   filtered = allEPDs.filter(epd => {
     const matchSearch = !query ||
@@ -841,7 +851,19 @@ function applyFilters() {
       (epd.material_category || '').toLowerCase().includes(query);
     const matchCat   = !cat   || epd.material_category === cat;
     const matchStage = !stage || (epd.life_cycle_stages || '').includes(stage);
-    return matchSearch && matchCat && matchStage;
+
+    let matchGWP = true;
+    if (gwpRange) {
+      const gwpVal = epd.gwp_a1a3 && epd.gwp_a1a3 !== 'None' ? parseFloat(epd.gwp_a1a3) : null;
+      if (gwpRange === 'none') {
+        matchGWP = gwpVal === null || isNaN(gwpVal);
+      } else {
+        const [lo, hi] = gwpRange.split('-').map(Number);
+        matchGWP = gwpVal !== null && !isNaN(gwpVal) && gwpVal >= lo && gwpVal < hi;
+      }
+    }
+
+    return matchSearch && matchCat && matchStage && matchGWP;
   });
 
   if (sortCol) applySort();
@@ -957,6 +979,7 @@ function showNoDataNotice() {
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('category-filter').addEventListener('change', applyFilters);
 document.getElementById('stage-filter').addEventListener('change', applyFilters);
+document.getElementById('gwp-filter').addEventListener('change', applyFilters);
 
 loadData();
 </script>
