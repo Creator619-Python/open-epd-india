@@ -306,6 +306,18 @@
     color: var(--accent);
   }
 
+  .expired-tag {
+    display: inline-block;
+    font-size: 9px;
+    padding: 2px 6px;
+    background: rgba(247,129,102,0.1);
+    border: 1px solid rgba(247,129,102,0.3);
+    color: var(--highlight);
+    margin-left: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+
   .source-link {
     color: var(--accent);
     text-decoration: none;
@@ -653,6 +665,11 @@
         <option value="1000-99999999">Over 1,000 kg CO2 eq</option>
         <option value="none">GWP not available</option>
       </select>
+      <select id="validity-filter">
+        <option value="">All EPDs</option>
+        <option value="valid">Valid only</option>
+        <option value="expired">Expired only</option>
+      </select>
       <span class="result-count" id="result-count"></span>
     </div>
   </div>
@@ -877,7 +894,12 @@ function applyFilters() {
       }
     }
 
-    return matchSearch && matchCat && matchStage && matchGWP;
+    let matchValidity = true;
+    const validity = document.getElementById('validity-filter').value;
+    if (validity === 'valid')   matchValidity = !isExpired(epd);
+    if (validity === 'expired') matchValidity = isExpired(epd);
+
+    return matchSearch && matchCat && matchStage && matchGWP && matchValidity;
   });
 
   if (sortCol) applySort();
@@ -918,6 +940,17 @@ function sortBy(col) {
     th.classList.add('sorted');
     th.querySelector('.sort-arrow').textContent = sortAsc ? '↑' : '↓';
   }
+}
+
+function isExpired(epd) {
+  const until = epd.valid_until || '';
+  if (!until) return false;
+  // Extract year — handle formats like "2025", "2025-06-01", "01/06/2025"
+  const yearMatch = until.match(/\b(20\d{2})\b/);
+  if (!yearMatch) return false;
+  const year = parseInt(yearMatch[1]);
+  const currentYear = new Date().getFullYear();
+  return year < currentYear;
 }
 
 function getCatClass(cat) {
@@ -974,7 +1007,10 @@ function renderTable(epds) {
         ${confBadge}
       </td>
       <td><span class="stages-tag">${stages}</span></td>
-      <td>${epd.year_published || '—'}</td>
+      <td>
+        ${epd.year_published || '—'}
+        ${isExpired(epd) ? '<span class="expired-tag">EXPIRED</span>' : ''}
+      </td>
       <td>${epd.registration_number || '—'}</td>
       <td><a class="source-link" href="${url}" target="_blank" onclick="event.stopPropagation()">View →</a></td>
     </tr>`;
@@ -1012,6 +1048,7 @@ document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('category-filter').addEventListener('change', applyFilters);
 document.getElementById('stage-filter').addEventListener('change', applyFilters);
 document.getElementById('gwp-filter').addEventListener('change', applyFilters);
+document.getElementById('validity-filter').addEventListener('change', applyFilters);
 
 loadData();
 </script>
