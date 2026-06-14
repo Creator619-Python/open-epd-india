@@ -605,6 +605,168 @@
     color: var(--highlight);
     line-height: 1.6;
   }
+
+  .carbon-neg-badge {
+    display: inline-block;
+    font-size: 9px;
+    padding: 1px 5px;
+    background: rgba(63,185,80,0.12);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    margin-left: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+
+  .industrial-badge {
+    display: inline-block;
+    font-size: 9px;
+    padding: 1px 5px;
+    background: rgba(210,153,34,0.12);
+    border: 1px solid var(--warning);
+    color: var(--warning);
+    margin-left: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+
+  .copy-cite-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: "DM Mono", monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .copy-cite-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .copy-cite-btn.copied {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(63,185,80,0.08);
+  }
+
+  /* Detail modal */
+  #detail-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  #detail-overlay.open { display: flex; }
+  #detail-modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+  }
+  .dm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .dm-title {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .dm-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 4px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .dm-close:hover { color: var(--text); }
+  .dm-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    flex: 1;
+  }
+  .dm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .dm-field label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .dm-field span {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .dm-field.full { grid-column: 1 / -1; }
+  .dm-gwp-highlight {
+    font-size: 22px;
+    font-family: "Fraunces", serif;
+    color: var(--accent);
+  }
+  .dm-footer {
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .dm-footer a {
+    color: var(--accent);
+    font-size: 12px;
+    text-decoration: none;
+  }
+  .dm-footer a:hover { text-decoration: underline; }
+  .dm-notes {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    margin-top: 8px;
+    border-radius: 2px;
+  }
+
+
+  .cat-gypsum      { background: rgba(200,160,255,0.12); border-color: rgba(200,160,255,0.3); color: #c8a0ff; }
+  .cat-furniture   { background: rgba(255,200,100,0.12); border-color: rgba(255,200,100,0.3); color: #ffc864; }
+  .cat-electrical  { background: rgba(100,180,255,0.12); border-color: rgba(100,180,255,0.3); color: #64b4ff; }
+  .cat-chemical    { background: rgba(255,120,180,0.12); border-color: rgba(255,120,180,0.3); color: #ff78b4; }
+  .cat-solar       { background: rgba(255,220,50,0.12);  border-color: rgba(255,220,50,0.3);  color: #ffdc32; }
+  .cat-flooring    { background: rgba(180,140,100,0.12); border-color: rgba(180,140,100,0.3); color: #b48c64; }
+  .cat-fibre       { background: rgba(140,200,140,0.12); border-color: rgba(140,200,140,0.3); color: #8cc88c; }
+  .cat-rubber      { background: rgba(180,100,80,0.12);  border-color: rgba(180,100,80,0.3);  color: #b46450; }
+  .cat-refractories{ background: rgba(200,120,60,0.12);  border-color: rgba(200,120,60,0.3);  color: #c8783c; }
+  .cat-aggregate   { background: rgba(160,160,120,0.12); border-color: rgba(160,160,120,0.3); color: #a0a078; }
+
 </style>
 </head>
 <body>
@@ -673,6 +835,19 @@
         <option value="">All EPDs</option>
         <option value="valid">Valid only</option>
         <option value="expired">Expired only</option>
+      </select>
+      <select id="manufacturer-filter">
+        <option value="">All manufacturers</option>
+      </select>
+      <select id="year-filter">
+        <option value="">All years</option>
+        <option value="2026">2026</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+        <option value="2020">2020</option>
       </select>
       <span class="result-count" id="result-count"></span>
     </div>
@@ -871,6 +1046,18 @@ function populateFilters() {
     opt.textContent = cat;
     sel.appendChild(opt);
   });
+
+  // Manufacturer filter — top 20 by EPD count, then rest alphabetically
+  const mfrCounts = {};
+  allEPDs.forEach(e => { if (e.manufacturer_name) mfrCounts[e.manufacturer_name] = (mfrCounts[e.manufacturer_name] || 0) + 1; });
+  const mfrs = Object.entries(mfrCounts).sort((a,b) => b[1]-a[1]).map(([m]) => m);
+  const mfrSel = document.getElementById('manufacturer-filter');
+  mfrs.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m;
+    opt.textContent = m.length > 40 ? m.slice(0,38)+'…' : m;
+    mfrSel.appendChild(opt);
+  });
 }
 
 function applyFilters() {
@@ -878,6 +1065,8 @@ function applyFilters() {
   const cat   = document.getElementById('category-filter').value;
   const stage = document.getElementById('stage-filter').value;
   const gwpRange = document.getElementById('gwp-filter').value;
+  const mfr   = document.getElementById('manufacturer-filter').value;
+  const year  = document.getElementById('year-filter').value;
 
   filtered = allEPDs.filter(epd => {
     const matchSearch = !query ||
@@ -887,6 +1076,8 @@ function applyFilters() {
       (epd.material_category || '').toLowerCase().includes(query);
     const matchCat   = !cat   || epd.material_category === cat;
     const matchStage = !stage || (epd.life_cycle_stages || '').includes(stage);
+    const matchMfr   = !mfr  || epd.manufacturer_name === mfr;
+    const matchYear  = !year  || String(Math.round(parseFloat(epd.year_published || 0))) === year;
 
     let matchGWP = true;
     if (gwpRange) {
@@ -904,7 +1095,7 @@ function applyFilters() {
     if (validity === 'valid')   matchValidity = !isExpired(epd);
     if (validity === 'expired') matchValidity = isExpired(epd);
 
-    return matchSearch && matchCat && matchStage && matchGWP && matchValidity;
+    return matchSearch && matchCat && matchStage && matchGWP && matchMfr && matchYear && matchValidity;
   });
 
   if (sortCol) applySort();
@@ -968,11 +1159,18 @@ function getCatClass(cat) {
   if (c.includes('aluminium') || c.includes('aluminum')) return 'cat-aluminium';
   if (c.includes('plastic') || c.includes('polymer')) return 'cat-plastic';
   if (c.includes('timber') || c.includes('wood')) return 'cat-timber';
-  if (c.includes('insulation')) return 'cat-insulation';
+  if (c.includes('insulation') || c.includes('acoustic')) return 'cat-insulation';
+  if (c.includes('gypsum') || c.includes('plasterboard')) return 'cat-gypsum';
+  if (c.includes('furniture') || c.includes('fitting')) return 'cat-furniture';
+  if (c.includes('electrical') || c.includes('electronics')) return 'cat-electrical';
+  if (c.includes('chemical') || c.includes('waterproofing')) return 'cat-chemical';
+  if (c.includes('solar') || c.includes('energy')) return 'cat-solar';
+  if (c.includes('flooring') || c.includes('surface')) return 'cat-flooring';
+  if (c.includes('fibre') || c.includes('board')) return 'cat-fibre';
+  if (c.includes('rubber') || c.includes('tyre')) return 'cat-rubber';
+  if (c.includes('refractory') || c.includes('refractive')) return 'cat-refractories';
   if (c.includes('brick') || c.includes('masonry')) return 'cat-brick';
-  if (c.includes('ceramic') || c.includes('tile')) return 'cat-ceramic';
   if (c.includes('aggregate') || c.includes('stone')) return 'cat-aggregate';
-  if (c.includes('equipment')) return 'cat-equipment';
   return '';
 }
 
@@ -1002,22 +1200,32 @@ function renderTable(epds) {
       ? `<span class="td-gwp-badge ${conf === 'MEDIUM' ? 'medium' : ''}">${conf || 'AI'}</span>`
       : '';
 
-    return `<tr style="animation-delay:${delay}ms" onclick="window.open('${url}','_blank')">
+    const expired = isExpired(epd);
+    const carbonNeg = epd.carbon_negative === 'True';
+    const industrial = epd.is_industrial_equipment === 'True';
+    const gwpDisplay = carbonNeg
+      ? `<span style="color:var(--accent)">${gwp}</span><span class="carbon-neg-badge">carbon−</span>`
+      : industrial
+      ? `${gwp}<span class="industrial-badge">industrial</span>`
+      : gwp;
+
+    return `<tr style="animation-delay:${delay}ms" onclick="openDetail(${i})" style="cursor:pointer">
       <td class="td-name">${epd.material_name || '—'}</td>
       <td><span class="category-tag ${getCatClass(epd.material_category)}">${epd.material_category || '—'}</span></td>
       <td class="td-manufacturer">${epd.manufacturer_name || '—'}</td>
       <td class="td-gwp">
-        ${gwp}
+        ${gwpDisplay}
         <span class="td-gwp-unit">${unit}</span>
         ${confBadge}
       </td>
       <td><span class="stages-tag">${stages}</span></td>
       <td>
-        ${epd.year_published || '—'}
-        ${isExpired(epd) ? '<span class="expired-tag">EXPIRED</span>' : ''}
+        ${epd.year_published ? Math.round(parseFloat(epd.year_published)) : '—'}
+        ${expired ? '<span class="expired-tag">EXPIRED</span>' : ''}
       </td>
       <td>${epd.registration_number || '—'}</td>
-      <td><a class="source-link" href="${url}" target="_blank" onclick="event.stopPropagation()">View →</a></td>
+      <td><a class="source-link" href="${url}" target="_blank" onclick="event.stopPropagation()">View →</a>
+          <button class="copy-cite-btn" onclick="event.stopPropagation();copyCitation(${i},this)">⧉ Cite</button></td>
     </tr>`;
   }).join('');
 
@@ -1053,6 +1261,8 @@ document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('category-filter').addEventListener('change', applyFilters);
 document.getElementById('stage-filter').addEventListener('change', applyFilters);
 document.getElementById('gwp-filter').addEventListener('change', applyFilters);
+document.getElementById('manufacturer-filter').addEventListener('change', applyFilters);
+document.getElementById('year-filter').addEventListener('change', applyFilters);
 document.getElementById('validity-filter').addEventListener('change', applyFilters);
 
 loadData();
@@ -1122,6 +1332,166 @@ function closeChangelog() {
   document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeChangelog(); });
+</script>
+
+
+<!-- Detail Modal -->
+<div id="detail-overlay" onclick="closeDetail()">
+  <div id="detail-modal" onclick="event.stopPropagation()">
+    <div class="dm-header">
+      <div class="dm-title" id="dm-title">—</div>
+      <button class="dm-close" onclick="closeDetail()">×</button>
+    </div>
+    <div class="dm-body">
+      <div class="dm-grid">
+        <div class="dm-field">
+          <label>GWP A1-A3</label>
+          <span class="dm-gwp-highlight" id="dm-gwp">—</span>
+          <span id="dm-gwp-unit" style="font-size:11px;color:var(--text-muted);margin-left:6px;"></span>
+        </div>
+        <div class="dm-field">
+          <label>Declared Unit</label>
+          <span id="dm-declared-unit">—</span>
+        </div>
+        <div class="dm-field">
+          <label>Material Category</label>
+          <span id="dm-category">—</span>
+        </div>
+        <div class="dm-field">
+          <label>Manufacturer</label>
+          <span id="dm-manufacturer">—</span>
+        </div>
+        <div class="dm-field">
+          <label>Life Cycle Stages</label>
+          <span id="dm-stages">—</span>
+        </div>
+        <div class="dm-field">
+          <label>Geographical Scope</label>
+          <span id="dm-scope">—</span>
+        </div>
+        <div class="dm-field">
+          <label>Year Published</label>
+          <span id="dm-year">—</span>
+        </div>
+        <div class="dm-field">
+          <label>Valid Until</label>
+          <span id="dm-valid-until">—</span>
+        </div>
+        <div class="dm-field">
+          <label>Programme Operator</label>
+          <span id="dm-operator">—</span>
+        </div>
+        <div class="dm-field">
+          <label>Registration Number</label>
+          <span id="dm-reg">—</span>
+        </div>
+        <div class="dm-field">
+          <label>Extraction Confidence</label>
+          <span id="dm-confidence">—</span>
+        </div>
+        <div class="dm-field full" id="dm-notes-wrap" style="display:none;">
+          <label>Notes</label>
+          <div class="dm-notes" id="dm-notes">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="dm-footer">
+      <button class="copy-cite-btn" id="dm-cite-btn" onclick="copyCitationFromModal()">⧉ Copy citation</button>
+      <a id="dm-source-link" href="#" target="_blank">View on Environdec →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Detail modal ─────────────────────────────────────────────────────────────
+let currentEPD = null;
+
+function openDetail(idx) {
+  const epd = filtered[idx];
+  if (!epd) return;
+  currentEPD = epd;
+
+  document.getElementById('dm-title').textContent = epd.material_name || '—';
+  const gwpRaw = epd.gwp_a1a3;
+  const gwp = gwpRaw && gwpRaw !== 'None' ? parseFloat(gwpRaw).toLocaleString('en-IN', {maximumFractionDigits: 3}) : '—';
+  document.getElementById('dm-gwp').textContent = gwp;
+  document.getElementById('dm-gwp-unit').textContent = epd.gwp_unit || '';
+  document.getElementById('dm-declared-unit').textContent = epd.declared_unit || '—';
+  document.getElementById('dm-category').textContent = epd.material_category || '—';
+  document.getElementById('dm-manufacturer').textContent = epd.manufacturer_name || '—';
+  document.getElementById('dm-stages').textContent = epd.life_cycle_stages || '—';
+  document.getElementById('dm-scope').textContent = epd.geographical_scope || '—';
+  document.getElementById('dm-year').textContent = epd.year_published ? Math.round(parseFloat(epd.year_published)) : '—';
+
+  const validUntil = epd.valid_until || '—';
+  const expiredFlag = isExpired(epd) ? ' <span class="expired-tag">EXPIRED</span>' : '';
+  document.getElementById('dm-valid-until').innerHTML = (epd.valid_until ? Math.round(parseFloat(epd.valid_until)) : '—') + expiredFlag;
+
+  document.getElementById('dm-operator').textContent = epd.epd_programme_operator || '—';
+  document.getElementById('dm-reg').textContent = epd.registration_number || '—';
+  document.getElementById('dm-confidence').textContent = epd.extraction_confidence || '—';
+
+  const notesWrap = document.getElementById('dm-notes-wrap');
+  const notes = epd.notes || '';
+  if (notes) {
+    document.getElementById('dm-notes').textContent = notes;
+    notesWrap.style.display = 'block';
+  } else {
+    notesWrap.style.display = 'none';
+  }
+
+  const url = epd.epd_url || '#';
+  document.getElementById('dm-source-link').href = url;
+
+  // Reset cite button
+  const citeBtn = document.getElementById('dm-cite-btn');
+  citeBtn.textContent = '⧉ Copy citation';
+  citeBtn.classList.remove('copied');
+
+  document.getElementById('detail-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() {
+  document.getElementById('detail-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentEPD = null;
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDetail(); closeChangelog(); } });
+
+// ── Citation generator ────────────────────────────────────────────────────────
+function buildCitation(epd) {
+  const mfr = epd.manufacturer_name || 'Unknown';
+  const year = epd.year_published ? Math.round(parseFloat(epd.year_published)) : 'n.d.';
+  const name = epd.material_name || 'Unknown material';
+  const operator = epd.epd_programme_operator || 'EPD International AB';
+  const url = epd.epd_url || '';
+  const reg = epd.registration_number || '';
+  return `${mfr}. (${year}). ${name} [EPD, ${reg}]. ${operator}. ${url}`;
+}
+
+function copyCitation(idx, btn) {
+  const epd = filtered[idx];
+  if (!epd) return;
+  const citation = buildCitation(epd);
+  navigator.clipboard.writeText(citation).then(() => {
+    btn.textContent = '✓ Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '⧉ Cite'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function copyCitationFromModal() {
+  if (!currentEPD) return;
+  const citation = buildCitation(currentEPD);
+  const btn = document.getElementById('dm-cite-btn');
+  navigator.clipboard.writeText(citation).then(() => {
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '⧉ Copy citation'; btn.classList.remove('copied'); }, 2000);
+  });
+}
 </script>
 
 </body>
