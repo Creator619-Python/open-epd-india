@@ -767,6 +767,317 @@
   .cat-refractories{ background: rgba(200,120,60,0.12);  border-color: rgba(200,120,60,0.3);  color: #c8783c; }
   .cat-aggregate   { background: rgba(160,160,120,0.12); border-color: rgba(160,160,120,0.3); color: #a0a078; }
 
+
+  .gwp-range-wrap {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    white-space: nowrap;
+  }
+  .gwp-range-wrap:focus-within { border-color: var(--accent); }
+  .gwp-range-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .gwp-range-sep { font-size: 11px; color: var(--text-dim); }
+  .gwp-range-wrap input[type="number"] {
+    width: 72px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-family: "DM Mono", monospace;
+    font-size: 12px;
+    padding: 2px 4px;
+    outline: none;
+  }
+  .gwp-range-wrap input[type="number"]:focus { border-bottom-color: var(--accent); }
+  .gwp-range-wrap input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
+  .gwp-range-wrap select {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    padding: 2px 4px;
+    color: var(--text-muted);
+  }
+  .gwp-nodata-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .gwp-nodata-btn.active {
+    border-color: var(--warning);
+    color: var(--warning);
+    background: rgba(210,153,34,0.08);
+  }
+
+  /* ── A1-C4 full lifecycle badge ── */
+  .full-lc-badge {
+    display: inline-block;
+    font-size: 9px;
+    padding: 1px 5px;
+    background: rgba(100,180,255,0.1);
+    border: 1px solid rgba(100,180,255,0.35);
+    color: #64b4ff;
+    margin-left: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Expiry countdown ── */
+  .expiry-soon {
+    display: inline-block;
+    font-size: 9px;
+    padding: 2px 6px;
+    background: rgba(210,153,34,0.1);
+    border: 1px solid rgba(210,153,34,0.35);
+    color: var(--warning);
+    margin-left: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Compare mode ── */
+  .compare-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--accent);
+    padding: 12px 24px;
+    z-index: 888;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .compare-bar.visible { display: flex; }
+  .compare-bar-label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.05em; }
+  .compare-bar-items { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; }
+  .compare-chip {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--text);
+  }
+  .compare-chip button {
+    background: none; border: none; color: var(--text-muted);
+    cursor: pointer; font-size: 13px; padding: 0; line-height: 1;
+  }
+  .compare-chip button:hover { color: var(--highlight); }
+  .compare-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 7px 18px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: opacity 0.15s;
+  }
+  .compare-btn:hover { opacity: 0.85; }
+  .compare-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .compare-clear-btn {
+    background: none; border: 1px solid var(--border);
+    color: var(--text-muted); font-family: "DM Mono", monospace;
+    font-size: 11px; padding: 7px 14px; cursor: pointer;
+  }
+  .add-compare-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: "DM Mono", monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+    margin-left: 4px;
+  }
+  .add-compare-btn:hover, .add-compare-btn.in-compare {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .add-compare-btn.in-compare { background: rgba(63,185,80,0.08); }
+
+  /* ── Compare modal ── */
+  #compare-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 9998;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  #compare-overlay.open { display: flex; }
+  #compare-modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    max-width: 880px;
+    width: 100%;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+  .cm-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .cm-title { font-size: 12px; letter-spacing: 0.08em; color: var(--text); text-transform: uppercase; }
+  .cm-close { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; }
+  .cm-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+  .cm-grid { display: grid; gap: 0; border: 1px solid var(--border); }
+  .cm-row {
+    display: grid;
+    border-bottom: 1px solid var(--border);
+  }
+  .cm-row:last-child { border-bottom: none; }
+  .cm-cell {
+    padding: 10px 14px;
+    font-size: 12px;
+    border-right: 1px solid var(--border);
+    line-height: 1.5;
+  }
+  .cm-cell:last-child { border-right: none; }
+  .cm-cell.label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--bg);
+    font-weight: 500;
+  }
+  .cm-gwp {
+    font-family: "Fraunces", serif;
+    font-size: 18px;
+    color: var(--accent);
+  }
+  .cm-gwp.negative { color: var(--accent); }
+  .cm-gwp.highest { color: var(--highlight); }
+  .cm-footer {
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  /* ── Mobile card view ── */
+  .view-toggle {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-left: auto;
+  }
+  .view-toggle-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .view-toggle-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(63,185,80,0.08);
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    padding: 20px 0 60px;
+  }
+  .epd-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    animation: fadeIn 0.3s ease forwards;
+    opacity: 0;
+  }
+  .epd-card:hover { border-color: var(--accent); }
+  .epd-card.in-compare { border-color: var(--accent); background: rgba(63,185,80,0.04); }
+  .card-name {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .card-mfr {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-gwp {
+    font-family: "Fraunces", serif;
+    font-size: 20px;
+    color: var(--accent);
+    line-height: 1.2;
+  }
+  .card-gwp.negative { color: var(--accent); }
+  .card-gwp-unit { font-size: 10px; color: var(--text-muted); font-family: "DM Mono", monospace; margin-top: 2px; }
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .card-actions { display: flex; gap: 6px; }
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  /* ── GWP sort warning tooltip ── */
+  .sort-warn {
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 24px;
+    background: var(--warning-dim);
+    border: 1px solid var(--warning);
+    color: var(--warning);
+    font-size: 11px;
+    padding: 8px 14px;
+    z-index: 100;
+    max-width: 300px;
+    line-height: 1.5;
+    animation: fadeIn 0.2s ease;
+  }
+  .sort-warn.visible { display: block; }
+
+  .in-compare-row { background: rgba(63,185,80,0.04) !important; }
 </style>
 </head>
 <body>
@@ -822,15 +1133,24 @@
         <option value="A1-A4">A1-A4</option>
         <option value="A1-A3,C">A1-A3 + C</option>
       </select>
-      <select id="gwp-filter">
-        <option value="">All GWP ranges</option>
-        <option value="0-1">Under 1 kg CO2 eq</option>
-        <option value="1-10">1 – 10 kg CO2 eq</option>
-        <option value="10-100">10 – 100 kg CO2 eq</option>
-        <option value="100-1000">100 – 1,000 kg CO2 eq</option>
-        <option value="1000-99999999">Over 1,000 kg CO2 eq</option>
-        <option value="none">GWP not available</option>
-      </select>
+      <div class="gwp-range-wrap" title="Filter by GWP A1-A3 value (same unit only)">
+        <span class="gwp-range-label">GWP</span>
+        <input type="number" id="gwp-min" placeholder="min" min="0" step="any">
+        <span class="gwp-range-sep">–</span>
+        <input type="number" id="gwp-max" placeholder="max" step="any">
+        <select id="gwp-unit-filter">
+          <option value="">any unit</option>
+          <option value="kg CO2eq/tonne">/ tonne</option>
+          <option value="kg CO2eq/kg">/ kg</option>
+          <option value="kg CO2eq/m²">/ m²</option>
+          <option value="kg CO2eq/m³">/ m³</option>
+          <option value="kg CO2eq/m">/ m</option>
+          <option value="kg CO2eq/piece">/ piece</option>
+          <option value="kg CO2eq/unit">/ unit</option>
+          <option value="kg CO2eq/Wp">/ Wp</option>
+        </select>
+        <button id="gwp-nodata-btn" class="gwp-nodata-btn" title="Show EPDs without GWP data" onclick="toggleNoGWP()">no GWP</button>
+      </div>
       <select id="validity-filter">
         <option value="">All EPDs</option>
         <option value="valid">Valid only</option>
@@ -850,6 +1170,10 @@
         <option value="2020">2020</option>
       </select>
       <span class="result-count" id="result-count"></span>
+      <div class="view-toggle">
+        <button class="view-toggle-btn active" id="btn-table" onclick="setView('table')">≡ Table</button>
+        <button class="view-toggle-btn" id="btn-cards" onclick="setView('cards')">⊞ Cards</button>
+      </div>
     </div>
   </div>
 
@@ -1064,7 +1388,6 @@ function applyFilters() {
   const query = document.getElementById('search').value.toLowerCase();
   const cat   = document.getElementById('category-filter').value;
   const stage = document.getElementById('stage-filter').value;
-  const gwpRange = document.getElementById('gwp-filter').value;
   const mfr   = document.getElementById('manufacturer-filter').value;
   const year  = document.getElementById('year-filter').value;
 
@@ -1080,13 +1403,20 @@ function applyFilters() {
     const matchYear  = !year  || String(Math.round(parseFloat(epd.year_published || 0))) === year;
 
     let matchGWP = true;
-    if (gwpRange) {
-      const gwpVal = epd.gwp_a1a3 && epd.gwp_a1a3 !== 'None' ? parseFloat(epd.gwp_a1a3) : null;
-      if (gwpRange === 'none') {
-        matchGWP = gwpVal === null || isNaN(gwpVal);
-      } else {
-        const [lo, hi] = gwpRange.split('-').map(Number);
-        matchGWP = gwpVal !== null && !isNaN(gwpVal) && gwpVal >= lo && gwpVal < hi;
+    const gwpVal = epd.gwp_a1a3 && epd.gwp_a1a3 !== 'None' ? parseFloat(epd.gwp_a1a3) : null;
+    if (showNoGWP) {
+      matchGWP = gwpVal === null || isNaN(gwpVal);
+    } else {
+      const gwpMin = document.getElementById('gwp-min').value !== '' ? parseFloat(document.getElementById('gwp-min').value) : null;
+      const gwpMax = document.getElementById('gwp-max').value !== '' ? parseFloat(document.getElementById('gwp-max').value) : null;
+      const gwpUnit = document.getElementById('gwp-unit-filter').value;
+      if (gwpMin !== null || gwpMax !== null || gwpUnit) {
+        if (gwpVal === null || isNaN(gwpVal)) { matchGWP = false; }
+        else {
+          if (gwpMin !== null && gwpVal < gwpMin) matchGWP = false;
+          if (gwpMax !== null && gwpVal > gwpMax) matchGWP = false;
+          if (gwpUnit && (epd.gwp_unit || '') !== gwpUnit) matchGWP = false;
+        }
       }
     }
 
@@ -1135,6 +1465,15 @@ function sortBy(col) {
   if (th) {
     th.classList.add('sorted');
     th.querySelector('.sort-arrow').textContent = sortAsc ? '↑' : '↓';
+  }
+  // Show GWP sort warning if sorting by GWP and no unit filter active
+  if (col === 'gwp_a1a3') {
+    const unitFilter = document.getElementById('gwp-unit-filter').value;
+    const warn = document.getElementById('sort-warn');
+    if (!unitFilter) {
+      warn.classList.add('visible');
+      setTimeout(() => warn.classList.remove('visible'), 6000);
+    }
   }
 }
 
@@ -1203,13 +1542,32 @@ function renderTable(epds) {
     const expired = isExpired(epd);
     const carbonNeg = epd.carbon_negative === 'True';
     const industrial = epd.is_industrial_equipment === 'True';
+    const isFullLC = (epd.life_cycle_stages || '').includes('C') || (epd.life_cycle_stages || '').includes('A1-C');
+    const inCmp = compareSet.has(epd.registration_number);
+
     const gwpDisplay = carbonNeg
       ? `<span style="color:var(--accent)">${gwp}</span><span class="carbon-neg-badge">carbon−</span>`
       : industrial
       ? `${gwp}<span class="industrial-badge">industrial</span>`
       : gwp;
 
-    return `<tr style="animation-delay:${delay}ms" onclick="openDetail(${i})" style="cursor:pointer">
+    const expiryBadge = (() => {
+      if (!epd.valid_until) return '';
+      const untilYear = parseInt((epd.valid_until+'').match(/(20\d{2})/)?.[1]);
+      if (!untilYear) return '';
+      const now = new Date().getFullYear();
+      const nowMonth = new Date().getMonth(); // 0-based
+      if (untilYear < now) return '<span class="expired-tag">EXPIRED</span>';
+      if (untilYear === now) return `<span class="expiry-soon">expires ${untilYear}</span>`;
+      if (untilYear - now === 1) return `<span class="expiry-soon">exp. ${untilYear}</span>`;
+      return '';
+    })();
+
+    const stagesBadge = isFullLC
+      ? `<span class="stages-tag">${stages}</span><span class="full-lc-badge">full LC</span>`
+      : `<span class="stages-tag">${stages}</span>`;
+
+    return `<tr style="animation-delay:${delay}ms;cursor:pointer" onclick="openDetail(${i})" class="${inCmp ? 'in-compare-row' : ''}">
       <td class="td-name">${epd.material_name || '—'}</td>
       <td><span class="category-tag ${getCatClass(epd.material_category)}">${epd.material_category || '—'}</span></td>
       <td class="td-manufacturer">${epd.manufacturer_name || '—'}</td>
@@ -1218,14 +1576,17 @@ function renderTable(epds) {
         <span class="td-gwp-unit">${unit}</span>
         ${confBadge}
       </td>
-      <td><span class="stages-tag">${stages}</span></td>
+      <td>${stagesBadge}</td>
       <td>
         ${epd.year_published ? Math.round(parseFloat(epd.year_published)) : '—'}
-        ${expired ? '<span class="expired-tag">EXPIRED</span>' : ''}
+        ${expiryBadge}
       </td>
       <td>${epd.registration_number || '—'}</td>
-      <td><a class="source-link" href="${url}" target="_blank" onclick="event.stopPropagation()">View →</a>
-          <button class="copy-cite-btn" onclick="event.stopPropagation();copyCitation(${i},this)">⧉ Cite</button></td>
+      <td>
+        <a class="source-link" href="${url}" target="_blank" onclick="event.stopPropagation()">View →</a>
+        <button class="copy-cite-btn" onclick="event.stopPropagation();copyCitation(${i},this)">⧉ Cite</button>
+        <button class="add-compare-btn ${inCmp ? 'in-compare' : ''}" onclick="event.stopPropagation();toggleCompare('${epd.registration_number}',${i})" title="Add to compare">${inCmp ? '✓ cmp' : '+ cmp'}</button>
+      </td>
     </tr>`;
   }).join('');
 
@@ -1263,6 +1624,9 @@ document.getElementById('stage-filter').addEventListener('change', applyFilters)
 document.getElementById('gwp-filter').addEventListener('change', applyFilters);
 document.getElementById('manufacturer-filter').addEventListener('change', applyFilters);
 document.getElementById('year-filter').addEventListener('change', applyFilters);
+document.getElementById('gwp-min').addEventListener('input', applyFilters);
+document.getElementById('gwp-max').addEventListener('input', applyFilters);
+document.getElementById('gwp-unit-filter').addEventListener('change', applyFilters);
 document.getElementById('validity-filter').addEventListener('change', applyFilters);
 
 loadData();
@@ -1492,6 +1856,256 @@ function copyCitationFromModal() {
     setTimeout(() => { btn.textContent = '⧉ Copy citation'; btn.classList.remove('copied'); }, 2000);
   });
 }
+</script>
+
+
+<!-- GWP sort warning -->
+<div class="sort-warn" id="sort-warn">
+  ⚠ GWP values use different units (kg/tonne, kg/m², kg/piece…). Sorting across mixed units may be misleading. Filter by unit first for meaningful comparison.
+  <button onclick="document.getElementById('sort-warn').classList.remove('visible')" style="float:right;background:none;border:none;color:var(--warning);cursor:pointer;font-size:14px;margin-left:8px;line-height:1;">×</button>
+</div>
+
+<!-- Compare bar -->
+<div class="compare-bar" id="compare-bar">
+  <span class="compare-bar-label">COMPARE</span>
+  <div class="compare-bar-items" id="compare-chips"></div>
+  <button class="compare-btn" id="compare-go-btn" onclick="openCompare()" disabled>Compare →</button>
+  <button class="compare-clear-btn" onclick="clearCompare()">Clear</button>
+</div>
+
+<!-- Compare modal -->
+<div id="compare-overlay" onclick="closeCompare()">
+  <div id="compare-modal" onclick="event.stopPropagation()">
+    <div class="cm-header">
+      <span class="cm-title">EPD Comparison</span>
+      <button class="cm-close" onclick="closeCompare()">×</button>
+    </div>
+    <div class="cm-body">
+      <div id="compare-grid-container"></div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:16px;line-height:1.6;">
+        ⚠ GWP values are only directly comparable when declared units match. Cross-unit comparison (e.g. kg/tonne vs kg/m²) requires normalization by project-specific material quantities.
+      </p>
+    </div>
+    <div class="cm-footer">
+      Highlighted in <span style="color:var(--highlight)">red</span>: highest GWP · <span style="color:var(--accent)">green</span>: lowest / carbon negative
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ── State ────────────────────────────────────────────────────────────────────
+let compareSet = new Set(); // registration_numbers selected for compare
+let currentView = 'table';  // 'table' | 'cards'
+let showNoGWP = false;
+
+// ── GWP no-data toggle ───────────────────────────────────────────────────────
+function toggleNoGWP() {
+  showNoGWP = !showNoGWP;
+  document.getElementById('gwp-nodata-btn').classList.toggle('active', showNoGWP);
+  applyFilters();
+}
+
+// ── View toggle ──────────────────────────────────────────────────────────────
+function setView(view) {
+  currentView = view;
+  document.getElementById('btn-table').classList.toggle('active', view === 'table');
+  document.getElementById('btn-cards').classList.toggle('active', view === 'cards');
+  renderTable(filtered);
+}
+
+// ── Card view renderer ───────────────────────────────────────────────────────
+function renderCards(epds) {
+  const container = document.getElementById('table-container');
+  if (epds.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">◎</div><h3>No EPDs found</h3><p>Try adjusting your search or filters</p></div>`;
+    return;
+  }
+  const cards = epds.map((epd, i) => {
+    const gwpRaw = epd.gwp_a1a3;
+    const gwp = gwpRaw && gwpRaw !== 'None' ? parseFloat(gwpRaw).toLocaleString('en-IN', {maximumFractionDigits: 3}) : '—';
+    const unit = epd.gwp_unit || '';
+    const carbonNeg = epd.carbon_negative === 'True';
+    const industrial = epd.is_industrial_equipment === 'True';
+    const isFullLC = (epd.life_cycle_stages || '').includes('C');
+    const inCmp = compareSet.has(epd.registration_number);
+    const url = epd.epd_url || '#';
+    const delay = Math.min(i * 15, 400);
+
+    const expiryNote = (() => {
+      if (!epd.valid_until) return '';
+      const untilYear = parseInt((epd.valid_until+'').match(/(20\d\d)/)?.[1]);
+      if (!untilYear) return '';
+      const now = new Date().getFullYear();
+      if (untilYear < now) return '<span class="expired-tag">EXPIRED</span>';
+      if (untilYear - now <= 1) return `<span class="expiry-soon">exp. ${untilYear}</span>`;
+      return '';
+    })();
+
+    return `<div class="epd-card ${inCmp ? 'in-compare' : ''}" style="animation-delay:${delay}ms" onclick="openDetail(${i})">
+      <div class="card-name">${epd.material_name || '—'}</div>
+      <div class="card-mfr">${epd.manufacturer_name || '—'}</div>
+      <div class="card-gwp ${carbonNeg ? 'negative' : ''}">${gwp === '—' ? '<span style="color:var(--text-muted);font-size:14px">GWP not available</span>' : gwp}</div>
+      <div class="card-gwp-unit">${unit}${carbonNeg ? ' · carbon negative' : ''}${industrial ? ' · industrial equipment' : ''}</div>
+      <div class="card-footer">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+          <span class="category-tag ${getCatClass(epd.material_category)}" style="font-size:9px">${epd.material_category || '—'}</span>
+          ${isFullLC ? '<span class="full-lc-badge">full LC</span>' : ''}
+          ${expiryNote}
+        </div>
+        <div class="card-actions">
+          <button class="copy-cite-btn" onclick="event.stopPropagation();copyCitation(${i},this)">⧉</button>
+          <button class="add-compare-btn ${inCmp ? 'in-compare' : ''}" onclick="event.stopPropagation();toggleCompare('${epd.registration_number}',${i})">${inCmp ? '✓' : '+'}</button>
+          <a class="source-link" href="${url}" target="_blank" onclick="event.stopPropagation()" style="font-size:10px">View →</a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  container.innerHTML = `<div class="cards-grid">${cards}</div>`;
+}
+
+// ── Patch renderTable to branch on currentView ────────────────────────────────
+const _origRenderTable = renderTable;
+// We'll override after page load by wrapping
+window.addEventListener('DOMContentLoaded', () => {
+  const orig = window.renderTable;
+  window.renderTable = function(epds) {
+    if (currentView === 'cards') {
+      renderCards(epds);
+    } else {
+      orig(epds);
+    }
+  };
+});
+
+// ── Compare system ────────────────────────────────────────────────────────────
+function toggleCompare(regNum, idx) {
+  if (compareSet.has(regNum)) {
+    compareSet.delete(regNum);
+  } else {
+    if (compareSet.size >= 3) {
+      // Remove oldest
+      compareSet.delete(compareSet.values().next().value);
+    }
+    compareSet.add(regNum);
+  }
+  updateCompareBar();
+  renderTable(filtered);
+}
+
+function updateCompareBar() {
+  const bar = document.getElementById('compare-bar');
+  const chips = document.getElementById('compare-chips');
+  const btn = document.getElementById('compare-go-btn');
+
+  if (compareSet.size === 0) {
+    bar.classList.remove('visible');
+    return;
+  }
+  bar.classList.add('visible');
+  btn.disabled = compareSet.size < 2;
+
+  chips.innerHTML = [...compareSet].map(reg => {
+    const epd = allEPDs.find(e => e.registration_number === reg);
+    const name = epd ? (epd.material_name || reg).slice(0, 35) : reg;
+    return `<div class="compare-chip">
+      <span>${name}</span>
+      <button onclick="toggleCompare('${reg}')" title="Remove">×</button>
+    </div>`;
+  }).join('');
+}
+
+function clearCompare() {
+  compareSet.clear();
+  updateCompareBar();
+  renderTable(filtered);
+}
+
+function openCompare() {
+  const epds = [...compareSet].map(reg => allEPDs.find(e => e.registration_number === reg)).filter(Boolean);
+  if (epds.length < 2) return;
+
+  const n = epds.length;
+  const cols = n + 1; // label + n EPD columns
+
+  // Find min/max GWP for highlighting
+  const gwpNums = epds.map(e => parseFloat(e.gwp_a1a3)).filter(v => !isNaN(v));
+  const minGWP = Math.min(...gwpNums);
+  const maxGWP = Math.max(...gwpNums);
+
+  const fields = [
+    { label: 'Product', key: 'material_name' },
+    { label: 'GWP A1-A3', key: '_gwp' },
+    { label: 'Unit', key: 'gwp_unit' },
+    { label: 'Declared Unit', key: 'declared_unit' },
+    { label: 'Category', key: 'material_category' },
+    { label: 'Manufacturer', key: 'manufacturer_name' },
+    { label: 'Life Cycle Stages', key: 'life_cycle_stages' },
+    { label: 'Scope', key: 'geographical_scope' },
+    { label: 'Year', key: '_year' },
+    { label: 'Valid Until', key: '_valid' },
+    { label: 'Confidence', key: 'extraction_confidence' },
+  ];
+
+  const gridStyle = `grid-template-columns: 140px ${Array(n).fill('1fr').join(' ')}`;
+
+  const rows = fields.map(f => {
+    const cells = epds.map(epd => {
+      let val = '';
+      if (f.key === '_gwp') {
+        const v = parseFloat(epd.gwp_a1a3);
+        const isCarbonNeg = epd.carbon_negative === 'True';
+        let cls = 'cm-gwp';
+        if (!isNaN(v)) {
+          if (v === minGWP && gwpNums.length > 1) cls += ' negative';
+          if (v === maxGWP && gwpNums.length > 1) cls += ' highest';
+        }
+        val = isNaN(v) ? '—' : `<span class="${cls}">${v.toLocaleString('en-IN', {maximumFractionDigits:3})}</span>${isCarbonNeg ? ' <span class="carbon-neg-badge">carbon−</span>' : ''}`;
+      } else if (f.key === '_year') {
+        val = epd.year_published ? Math.round(parseFloat(epd.year_published)) : '—';
+      } else if (f.key === '_valid') {
+        const until = epd.valid_until ? Math.round(parseFloat(epd.valid_until)) : '—';
+        const expired = epd.is_expired === 'True';
+        val = `${until}${expired ? ' <span class="expired-tag">EXPIRED</span>' : ''}`;
+      } else {
+        val = epd[f.key] || '—';
+      }
+      return `<div class="cm-cell">${val}</div>`;
+    }).join('');
+    return `<div class="cm-row" style="${gridStyle}">
+      <div class="cm-cell label">${f.label}</div>
+      ${cells}
+    </div>`;
+  }).join('');
+
+  // Header row with EPD names
+  const headerCells = epds.map(epd =>
+    `<div class="cm-cell" style="font-size:11px;font-weight:600;color:var(--text)">${(epd.material_name || '—').slice(0,50)}</div>`
+  ).join('');
+
+  document.getElementById('compare-grid-container').innerHTML = `
+    <div class="cm-grid">
+      <div class="cm-row" style="${gridStyle};background:var(--bg)">
+        <div class="cm-cell label">EPD</div>
+        ${headerCells}
+      </div>
+      ${rows}
+    </div>`;
+
+  document.getElementById('compare-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCompare() {
+  document.getElementById('compare-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Extend Escape key handler
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeCompare(); }
+});
 </script>
 
 </body>
