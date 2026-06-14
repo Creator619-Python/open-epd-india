@@ -283,6 +283,20 @@
     white-space: nowrap;
   }
 
+  /* Category color coding */
+  .cat-steel    { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.3); color: #818cf8; }
+  .cat-glass    { background: rgba(34,211,238,0.1); border-color: rgba(34,211,238,0.3); color: #22d3ee; }
+  .cat-concrete { background: rgba(161,161,170,0.1); border-color: rgba(161,161,170,0.3); color: #a1a1aa; }
+  .cat-paint    { background: rgba(251,146,60,0.1); border-color: rgba(251,146,60,0.3); color: #fb923c; }
+  .cat-aluminium{ background: rgba(148,163,184,0.1); border-color: rgba(148,163,184,0.3); color: #94a3b8; }
+  .cat-plastic  { background: rgba(244,114,182,0.1); border-color: rgba(244,114,182,0.3); color: #f472b4; }
+  .cat-timber   { background: rgba(134,239,172,0.1); border-color: rgba(134,239,172,0.3); color: #86efac; }
+  .cat-insulation { background: rgba(253,224,71,0.1); border-color: rgba(253,224,71,0.3); color: #fde047; }
+  .cat-brick    { background: rgba(252,165,165,0.1); border-color: rgba(252,165,165,0.3); color: #fca5a5; }
+  .cat-ceramic  { background: rgba(196,181,253,0.1); border-color: rgba(196,181,253,0.3); color: #c4b5fd; }
+  .cat-aggregate{ background: rgba(180,83,9,0.1); border-color: rgba(180,83,9,0.3); color: #b45309; }
+  .cat-equipment{ background: rgba(247,129,102,0.1); border-color: rgba(247,129,102,0.3); color: #f78166; }
+
   .stages-tag {
     display: inline-block;
     font-size: 10px;
@@ -906,6 +920,24 @@ function sortBy(col) {
   }
 }
 
+function getCatClass(cat) {
+  if (!cat) return '';
+  const c = cat.toLowerCase();
+  if (c.includes('steel') || c.includes('metal')) return 'cat-steel';
+  if (c.includes('glass')) return 'cat-glass';
+  if (c.includes('concrete') || c.includes('cement')) return 'cat-concrete';
+  if (c.includes('paint') || c.includes('coating')) return 'cat-paint';
+  if (c.includes('aluminium') || c.includes('aluminum')) return 'cat-aluminium';
+  if (c.includes('plastic') || c.includes('polymer')) return 'cat-plastic';
+  if (c.includes('timber') || c.includes('wood')) return 'cat-timber';
+  if (c.includes('insulation')) return 'cat-insulation';
+  if (c.includes('brick') || c.includes('masonry')) return 'cat-brick';
+  if (c.includes('ceramic') || c.includes('tile')) return 'cat-ceramic';
+  if (c.includes('aggregate') || c.includes('stone')) return 'cat-aggregate';
+  if (c.includes('equipment')) return 'cat-equipment';
+  return '';
+}
+
 function renderTable(epds) {
   const container = document.getElementById('table-container');
 
@@ -934,7 +966,7 @@ function renderTable(epds) {
 
     return `<tr style="animation-delay:${delay}ms" onclick="window.open('${url}','_blank')">
       <td class="td-name">${epd.material_name || '—'}</td>
-      <td><span class="category-tag">${epd.material_category || '—'}</span></td>
+      <td><span class="category-tag ${getCatClass(epd.material_category)}">${epd.material_category || '—'}</span></td>
       <td class="td-manufacturer">${epd.manufacturer_name || '—'}</td>
       <td class="td-gwp">
         ${gwp}
