@@ -17,6 +17,8 @@
     --text-dim: #484f58;
     --tag-bg: #1c2128;
     --highlight: #f78166;
+    --warning: #d29922;
+    --warning-dim: #2d2006;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,7 +31,6 @@
     overflow-x: hidden;
   }
 
-  /* ── Grid background ── */
   body::before {
     content: '';
     position: fixed;
@@ -159,13 +160,8 @@
     transition: border-color 0.2s;
   }
 
-  input[type="text"]:focus {
-    border-color: var(--accent);
-  }
-
-  input[type="text"]::placeholder {
-    color: var(--text-dim);
-  }
+  input[type="text"]:focus { border-color: var(--accent); }
+  input[type="text"]::placeholder { color: var(--text-dim); }
 
   select {
     background: var(--surface);
@@ -221,14 +217,8 @@
   }
 
   th:hover { color: var(--accent); }
-
   th.sorted { color: var(--accent); }
-
-  th .sort-arrow {
-    margin-left: 4px;
-    opacity: 0.5;
-  }
-
+  th .sort-arrow { margin-left: 4px; opacity: 0.5; }
   th.sorted .sort-arrow { opacity: 1; }
 
   tbody tr {
@@ -238,7 +228,6 @@
   }
 
   tbody tr:hover { background: var(--surface); }
-
   tbody tr:last-child { border-bottom: none; }
 
   td {
@@ -248,17 +237,8 @@
     vertical-align: top;
   }
 
-  .td-name {
-    font-weight: 500;
-    max-width: 200px;
-    color: var(--text);
-  }
-
-  .td-manufacturer {
-    color: var(--text-muted);
-    max-width: 160px;
-    font-size: 11px;
-  }
+  .td-name { font-weight: 500; max-width: 200px; color: var(--text); }
+  .td-manufacturer { color: var(--text-muted); max-width: 160px; font-size: 11px; }
 
   .td-gwp {
     font-family: 'Fraunces', serif;
@@ -273,6 +253,24 @@
     font-size: 10px;
     color: var(--text-dim);
     margin-top: 2px;
+  }
+
+  .td-gwp-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 1px 5px;
+    margin-top: 3px;
+    background: rgba(63,185,80,0.08);
+    border: 1px solid var(--accent-dim);
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .td-gwp-badge.medium {
+    background: rgba(210,153,34,0.08);
+    border-color: rgba(210,153,34,0.3);
+    color: var(--warning);
   }
 
   .category-tag {
@@ -311,11 +309,7 @@
     color: var(--text-muted);
   }
 
-  .empty-icon {
-    font-size: 40px;
-    margin-bottom: 16px;
-    opacity: 0.3;
-  }
+  .empty-icon { font-size: 40px; margin-bottom: 16px; opacity: 0.3; }
 
   .empty-state h3 {
     font-family: 'Fraunces', serif;
@@ -325,13 +319,68 @@
     color: var(--text-dim);
   }
 
+  /* ── Methodology banner ── */
+  .methodology-banner {
+    background: rgba(210,153,34,0.05);
+    border: 1px solid rgba(210,153,34,0.2);
+    border-left: 3px solid var(--warning);
+    padding: 16px 20px;
+    margin: 0 0 24px;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .methodology-banner strong {
+    color: var(--warning);
+    display: block;
+    margin-bottom: 6px;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .methodology-banner a {
+    color: var(--warning);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .methodology-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .methodology-grid { grid-template-columns: 1fr; }
+  }
+
+  .methodology-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  .methodology-item span {
+    display: block;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+  }
+
   /* ── Contribute banner ── */
   .contribute-banner {
     background: var(--surface);
     border: 1px solid var(--border);
     border-left: 3px solid var(--accent);
     padding: 20px 24px;
-    margin: 0 0 32px;
+    margin: 0 0 24px;
   }
 
   .contribute-top {
@@ -375,26 +424,9 @@
     border: 1px solid var(--border);
   }
 
-  .contribute-route-icon {
-    font-size: 16px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .contribute-route-label {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 3px;
-    letter-spacing: 0.03em;
-  }
-
-  .contribute-route-desc {
-    font-size: 10px;
-    color: var(--text-dim);
-    line-height: 1.5;
-    margin-bottom: 8px;
-  }
+  .contribute-route-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .contribute-route-label { font-size: 11px; font-weight: 500; color: var(--text); margin-bottom: 3px; letter-spacing: 0.03em; }
+  .contribute-route-desc { font-size: 10px; color: var(--text-dim); line-height: 1.5; margin-bottom: 8px; }
 
   .btn-contribute {
     display: inline-block;
@@ -411,10 +443,7 @@
     cursor: pointer;
   }
 
-  .btn-contribute:hover {
-    background: var(--accent);
-    color: var(--bg);
-  }
+  .btn-contribute:hover { background: var(--accent); color: var(--bg); }
 
   .btn-contribute-ghost {
     display: inline-block;
@@ -431,10 +460,60 @@
     cursor: pointer;
   }
 
-  .btn-contribute-ghost:hover {
-    border-color: var(--text-muted);
-    color: var(--text);
+  .btn-contribute-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+
+  /* ── About section ── */
+  .about-section {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    margin-top: 0;
   }
+
+  .about-section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 600px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+
+  .about-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+  }
+
+  .about-card-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  .about-card-value {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .about-card-value a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .about-card-value a:hover { text-decoration: underline; }
 
   /* ── Footer ── */
   footer {
@@ -443,27 +522,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: gap;
+    flex-wrap: wrap;
     gap: 16px;
   }
 
-  .footer-left {
-    font-size: 11px;
-    color: var(--text-dim);
-    line-height: 1.7;
-  }
-
-  .footer-left a {
-    color: var(--text-muted);
-    text-decoration: none;
-  }
-
+  .footer-left { font-size: 11px; color: var(--text-dim); line-height: 1.7; }
+  .footer-left a { color: var(--text-muted); text-decoration: none; }
   .footer-left a:hover { color: var(--accent); }
-
-  .footer-right {
-    display: flex;
-    gap: 16px;
-  }
+  .footer-right { display: flex; gap: 16px; }
 
   .footer-link {
     font-size: 11px;
@@ -497,17 +563,13 @@
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── Animations ── */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  tbody tr {
-    animation: fadeIn 0.2s ease both;
-  }
+  tbody tr { animation: fadeIn 0.2s ease both; }
 
-  /* ── No data notice ── */
   .no-data-notice {
     background: rgba(247,129,102,0.05);
     border: 1px solid rgba(247,129,102,0.2);
@@ -536,6 +598,10 @@
       <div class="stat">
         <span class="stat-num" id="total-count">—</span>
         <span class="stat-label">EPDs indexed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="gwp-count">—</span>
+        <span class="stat-label">GWP A1-A3 values</span>
       </div>
       <div class="stat">
         <span class="stat-num" id="category-count">—</span>
@@ -571,6 +637,32 @@
   <!-- Table section -->
   <div class="table-section">
 
+    <!-- Methodology notice -->
+    <div class="methodology-banner">
+      <strong>⚠ GWP Extraction Methodology</strong>
+      GWP A1-A3 values in this database were extracted from EPD PDFs using AI (Google Gemini + Groq / Llama 3.3 70B) in June 2026.
+      Values are provided for reference and discovery purposes. Always verify against the source EPD document before use in LCA, green building certifications, or procurement decisions.
+      <div class="methodology-grid">
+        <div class="methodology-item">
+          <span>Source</span>
+          International EPD System (environdec.com) — all Indian EPDs as of June 2026
+        </div>
+        <div class="methodology-item">
+          <span>Extraction method</span>
+          AI-assisted PDF parsing · 384/388 values extracted · 383 HIGH confidence
+        </div>
+        <div class="methodology-item">
+          <span>Confidence levels</span>
+          HIGH = value clearly found in table · MEDIUM = inferred from context · Always cross-check source
+        </div>
+        <div class="methodology-item">
+          <span>License</span>
+          CC0 Public Domain — use freely, no attribution required. Source EPDs © respective manufacturers.
+        </div>
+      </div>
+    </div>
+
+    <!-- Contribute banner -->
     <div class="contribute-banner">
       <div class="contribute-top">
         <div class="contribute-text">
@@ -583,7 +675,7 @@
         <div class="contribute-route">
           <div class="contribute-route-icon">📋</div>
           <div>
-            <div class="contribute-route-label">Submit via Google Form</div>
+            <div class="contribute-route-label">Submit via Form</div>
             <div class="contribute-route-desc">No account needed. Fill a simple form — we'll review and add it to the database.</div>
             <a class="btn-contribute" href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAANAAdDB_WJUODVLQjNGSDZYN0hESkJENlhQV05JNlhWSC4u" target="_blank">+ Submit EPD →</a>
           </div>
@@ -605,30 +697,68 @@
 
   </div>
 
+  <!-- About / Data Sources -->
+  <div class="about-section">
+    <h2>About this database</h2>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-card-label">Data source</div>
+        <div class="about-card-value">
+          All EPDs published by Indian manufacturers on the
+          <a href="https://www.environdec.com/library?epd_country=India" target="_blank">International EPD System</a>
+          (environdec.com), collected in June 2026. EPD data is the intellectual property of respective manufacturers and programme operators.
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-label">GWP extraction</div>
+        <div class="about-card-value">
+          GWP A1-A3 values were extracted from 388 EPD PDFs using AI (Google Gemini 2.5 Flash + Llama 3.3 70B via Groq).
+          384 values extracted. 383 rated HIGH confidence by the model.
+          Always verify against the source EPD before formal use.
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-label">License</div>
+        <div class="about-card-value">
+          Database: <strong>CC0 Public Domain</strong> — use freely for any purpose, no attribution required.<br>
+          Code: MIT License.<br>
+          Source EPDs remain © their respective owners.
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-label">Built by</div>
+        <div class="about-card-value">
+          <a href="https://www.linkedin.com/in/gokulkrishnatb/" target="_blank">Gokul Krishna T.B.</a> — Senior ESG Executive, Care Hospitals, Hyderabad.
+          Independent builder of open sustainability tools.
+          <br><br>
+          <a href="https://github.com/Creator619-Python/open-epd-india" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
     <div class="footer-left">
-      Built by <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank">Gokul Krishna T.B.</a>
+      Built by <a href="https://www.linkedin.com/in/gokulkrishnatb/" target="_blank">Gokul Krishna T.B.</a>
       · Data: CC0 Public Domain · Code: MIT<br>
       Source: <a href="https://www.environdec.com" target="_blank">International EPD System</a>
       · Last updated: <span id="last-updated">—</span>
     </div>
     <div class="footer-right">
-      <a class="footer-link" href="https://github.com/YOUR_USERNAME/open-epd-india" target="_blank">GitHub</a>
-      <a class="footer-link" href="https://github.com/YOUR_USERNAME/open-epd-india/raw/main/india_epds.csv" target="_blank">Download CSV</a>
+      <a class="footer-link" href="https://github.com/Creator619-Python/open-epd-india" target="_blank">GitHub</a>
+      <a class="footer-link" href="https://github.com/Creator619-Python/open-epd-india/raw/main/india_epds.csv" target="_blank">Download CSV</a>
     </div>
   </footer>
 
 </div>
 
 <script>
-// ── Data loading ────────────────────────────────────────────────────────────
 let allEPDs = [];
 let filtered = [];
 let sortCol = null;
 let sortAsc = true;
 
-// Load CSV from same repo
 async function loadData() {
   try {
     const response = await fetch('india_epds.csv');
@@ -640,7 +770,6 @@ async function loadData() {
     populateFilters();
     renderTable(filtered);
   } catch (e) {
-    // Show demo data if CSV not loaded yet
     showNoDataNotice();
     renderTable([]);
   }
@@ -679,11 +808,13 @@ function parseCSVLine(line) {
 
 function updateStats() {
   document.getElementById('total-count').textContent = allEPDs.length;
+  const gwpFilled = allEPDs.filter(e => e.gwp_a1a3 && e.gwp_a1a3 !== '' && e.gwp_a1a3 !== 'None').length;
+  document.getElementById('gwp-count').textContent = gwpFilled;
   const cats = new Set(allEPDs.map(e => e.material_category).filter(Boolean));
   document.getElementById('category-count').textContent = cats.size;
   const mfrs = new Set(allEPDs.map(e => e.manufacturer_name).filter(Boolean));
   document.getElementById('manufacturer-count').textContent = mfrs.size;
-  document.getElementById('last-updated').textContent = new Date().toLocaleDateString('en-IN', {month:'short', year:'numeric'});
+  document.getElementById('last-updated').textContent = 'Jun 2026';
 }
 
 function populateFilters() {
@@ -697,7 +828,6 @@ function populateFilters() {
   });
 }
 
-// ── Filtering ───────────────────────────────────────────────────────────────
 function applyFilters() {
   const query = document.getElementById('search').value.toLowerCase();
   const cat   = document.getElementById('category-filter').value;
@@ -723,7 +853,6 @@ function applyFilters() {
     : `${filtered.length} of ${allEPDs.length} EPDs`;
 }
 
-// ── Sorting ─────────────────────────────────────────────────────────────────
 function applySort() {
   filtered.sort((a, b) => {
     let va = a[sortCol] || '';
@@ -755,7 +884,6 @@ function sortBy(col) {
   }
 }
 
-// ── Rendering ───────────────────────────────────────────────────────────────
 function renderTable(epds) {
   const container = document.getElementById('table-container');
 
@@ -770,11 +898,17 @@ function renderTable(epds) {
   }
 
   const rows = epds.map((epd, i) => {
-    const gwp = epd.gwp_a1a3 ? parseFloat(epd.gwp_a1a3).toFixed(3) : '—';
+    const gwpRaw = epd.gwp_a1a3;
+    const gwp = gwpRaw && gwpRaw !== 'None' ? parseFloat(gwpRaw).toFixed(3) : '—';
     const unit = epd.gwp_unit || 'kg CO2 eq';
+    const conf = epd.extraction_confidence || '';
     const stages = epd.life_cycle_stages || '—';
     const url = epd.epd_url || '#';
     const delay = Math.min(i * 20, 300);
+
+    const confBadge = gwp !== '—'
+      ? `<span class="td-gwp-badge ${conf === 'MEDIUM' ? 'medium' : ''}">${conf || 'AI'}</span>`
+      : '';
 
     return `<tr style="animation-delay:${delay}ms" onclick="window.open('${url}','_blank')">
       <td class="td-name">${epd.material_name || '—'}</td>
@@ -783,6 +917,7 @@ function renderTable(epds) {
       <td class="td-gwp">
         ${gwp}
         <span class="td-gwp-unit">${unit}</span>
+        ${confBadge}
       </td>
       <td><span class="stages-tag">${stages}</span></td>
       <td>${epd.year_published || '—'}</td>
@@ -815,19 +950,14 @@ function showNoDataNotice() {
   const section = document.querySelector('.table-section');
   const notice = document.createElement('div');
   notice.className = 'no-data-notice';
-  notice.innerHTML = `
-    <strong>Data file not loaded.</strong> Run <code>fetch_india_epds.py</code> to generate
-    <code>india_epds.csv</code>, then push both files to the same GitHub repository.
-    The table will populate automatically.`;
+  notice.innerHTML = `<strong>Data file not loaded.</strong> Push <code>india_epds.csv</code> to the same GitHub repository. The table will populate automatically.`;
   section.insertBefore(notice, section.firstChild);
 }
 
-// ── Event listeners ─────────────────────────────────────────────────────────
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('category-filter').addEventListener('change', applyFilters);
 document.getElementById('stage-filter').addEventListener('change', applyFilters);
 
-// ── Init ─────────────────────────────────────────────────────────────────────
 loadData();
 </script>
 </body>
