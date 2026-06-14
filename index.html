@@ -1485,7 +1485,7 @@ function isExpired(epd) {
   const until = epd.valid_until || '';
   if (!until) return false;
   // Extract year — handle formats like "2025", "2025-06-01", "01/06/2025"
-  const yearMatch = until.match(/\b(20\d{2})\b/);
+  const yearMatch = until.match(/(20\d{2})/);
   if (!yearMatch) return false;
   const year = parseInt(yearMatch[1]);
   const currentYear = new Date().getFullYear();
@@ -1559,7 +1559,7 @@ function renderTable(epds) {
 
     const expiryBadge = (() => {
       if (!epd.valid_until) return '';
-      const untilYear = parseInt((epd.valid_until+'').match(/(20\d{2})/)?.[1]);
+      const untilYear = parseInt((epd.valid_until+'').match(/(20\d{2})/)?.[1]);
       if (!untilYear) return '';
       const now = new Date().getFullYear();
       const nowMonth = new Date().getMonth(); // 0-based
@@ -1935,7 +1935,7 @@ function renderCards(epds) {
 
     const expiryNote = (() => {
       if (!epd.valid_until) return '';
-      const untilYear = parseInt((epd.valid_until+'').match(/(20\d\d)/)?.[1]);
+      const untilYear = parseInt((epd.valid_until+'').match(/(20\d\d)/)?.[1]);
       if (!untilYear) return '';
       const now = new Date().getFullYear();
       if (untilYear < now) return '<span class="expired-tag">EXPIRED</span>';
