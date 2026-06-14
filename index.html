@@ -1301,6 +1301,10 @@ let allEPDs = [];
 let filtered = [];
 let sortCol = null;
 let sortAsc = true;
+// ── View / compare / filter state (declared here so all functions can access) ──
+let compareSet = new Set();
+let currentView = 'table';
+let showNoGWP = false;
 
 async function loadData() {
   try {
@@ -1514,6 +1518,8 @@ function getCatClass(cat) {
 }
 
 function renderTable(epds) {
+  if (currentView === 'cards') { renderCards(epds); return; }
+
   const container = document.getElementById('table-container');
 
   if (epds.length === 0) {
@@ -1894,11 +1900,6 @@ function copyCitationFromModal() {
 
 
 <script>
-// ── State ────────────────────────────────────────────────────────────────────
-let compareSet = new Set(); // registration_numbers selected for compare
-let currentView = 'table';  // 'table' | 'cards'
-let showNoGWP = false;
-
 // ── GWP no-data toggle ───────────────────────────────────────────────────────
 function toggleNoGWP() {
   showNoGWP = !showNoGWP;
@@ -1965,19 +1966,7 @@ function renderCards(epds) {
   container.innerHTML = `<div class="cards-grid">${cards}</div>`;
 }
 
-// ── Patch renderTable to branch on currentView ────────────────────────────────
-const _origRenderTable = renderTable;
-// We'll override after page load by wrapping
-window.addEventListener('DOMContentLoaded', () => {
-  const orig = window.renderTable;
-  window.renderTable = function(epds) {
-    if (currentView === 'cards') {
-      renderCards(epds);
-    } else {
-      orig(epds);
-    }
-  };
-});
+// renderTable branches on currentView directly — see renderTable() function below
 
 // ── Compare system ────────────────────────────────────────────────────────────
 function toggleCompare(regNum, idx) {
