@@ -1086,6 +1086,147 @@
   .sort-warn.visible { display: block; }
 
   .in-compare-row { background: rgba(63,185,80,0.04) !important; }
+
+  /* ══════════════════════════════════════════════════
+     MOBILE RESPONSIVE — max-width: 768px
+  ══════════════════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* Header */
+    header { padding: 32px 0 24px; }
+    h1 { font-size: 28px; }
+    .subtitle { font-size: 12px; }
+    .stats-row { gap: 20px; margin-top: 20px; }
+    .stat-num { font-size: 22px; }
+    .stat-label { font-size: 10px; }
+
+    /* Search bar — stack vertically */
+    .search-section { padding: 16px 0 12px; position: relative; }
+    .search-wrap { flex-direction: column; gap: 8px; align-items: stretch; }
+    .search-input-wrap { min-width: unset; width: 100%; }
+    .search-wrap select { width: 100%; padding: 10px 12px; font-size: 12px; }
+
+    /* GWP range — full width */
+    .gwp-range-wrap { width: 100%; justify-content: space-between; }
+    .gwp-range-wrap input[type="number"] { width: 60px; }
+
+    /* View toggle — align right */
+    .view-toggle { margin-left: 0; justify-content: flex-end; }
+
+    /* Result count */
+    .result-count { text-align: right; }
+
+    /* Default to card view on mobile — hide table */
+    .table-wrap { display: none; }
+
+    /* Cards grid — single column on mobile */
+    .cards-grid {
+      grid-template-columns: 1fr;
+      padding: 12px 0 80px;
+      gap: 10px;
+    }
+
+    /* Methodology banner */
+    .methodology-grid { grid-template-columns: 1fr; }
+    .methodology-banner { font-size: 10px; padding: 12px 14px; }
+
+    /* Contribute banner */
+    .contribute-routes { flex-direction: column; }
+    .contribute-route { min-width: unset; }
+
+    /* About grid */
+    .about-grid { grid-template-columns: 1fr; }
+
+    /* Footer */
+    footer { flex-direction: column; gap: 12px; padding: 24px 0; }
+    .footer-right { gap: 12px; }
+
+    /* Compare bar */
+    .compare-bar { padding: 10px 16px; gap: 10px; }
+    .compare-bar-items { gap: 6px; }
+    .compare-chip { font-size: 10px; padding: 3px 8px; }
+    .compare-btn { padding: 6px 14px; font-size: 10px; }
+
+    /* Modals — full screen on mobile */
+    #detail-modal {
+      max-width: 100%;
+      max-height: 92vh;
+      border-radius: 8px 8px 0 0;
+      margin-top: auto;
+    }
+    #detail-overlay {
+      align-items: flex-end;
+      padding: 0;
+    }
+    .dm-grid { grid-template-columns: 1fr; }
+    .dm-field.full { grid-column: 1; }
+
+    #compare-modal {
+      max-width: 100%;
+      max-height: 92vh;
+      border-radius: 8px 8px 0 0;
+      margin-top: auto;
+    }
+    #compare-overlay {
+      align-items: flex-end;
+      padding: 0;
+    }
+
+    /* Changelog modal */
+    #changelog-overlay > div {
+      max-width: 100% !important;
+      max-height: 85vh !important;
+      border-radius: 8px 8px 0 0 !important;
+      margin-top: auto !important;
+    }
+
+    /* Sort warning */
+    .sort-warn { top: auto; bottom: 80px; right: 12px; left: 12px; max-width: unset; }
+
+    /* Container padding */
+    .container { padding: 0 16px; }
+  }
+
+  /* ── Very small screens ── */
+  @media (max-width: 380px) {
+    h1 { font-size: 24px; }
+    .stats-row { gap: 14px; }
+    .stat-num { font-size: 20px; }
+  }
+
+
+  .filter-toggle-btn {
+    display: none; /* hidden on desktop */
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    padding: 10px 14px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+    width: 100%;
+  }
+  .filter-toggle-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .filters-collapsible {
+    display: contents; /* desktop: renders inline as if wrapper doesn't exist */
+  }
+
+  @media (max-width: 768px) {
+    .filter-toggle-btn { display: block; }
+    .filters-collapsible {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+    .filters-collapsible.open { display: flex; }
+  }
+
 </style>
 </head>
 <body>
@@ -1130,8 +1271,10 @@
     <div class="search-wrap">
       <div class="search-input-wrap">
         <span class="search-icon">⌕</span>
-        <input type="text" id="search" placeholder="Search by material, manufacturer, registration number...">
+        <input type="text" id="search" placeholder="Search by material, manufacturer, reg. number...">
       </div>
+      <button class="filter-toggle-btn" id="filter-toggle-btn" onclick="toggleFilters()">⊟ Filters</button>
+      <div class="filters-collapsible" id="filters-collapsible">
       <select id="category-filter">
         <option value="">All categories</option>
       </select>
@@ -1177,6 +1320,7 @@
         <option value="2021">2021</option>
         <option value="2020">2020</option>
       </select>
+      </div><!-- end filters-collapsible -->
       <span class="result-count" id="result-count"></span>
       <div class="view-toggle">
         <button class="view-toggle-btn active" id="btn-table" onclick="setView('table')">≡ Table</button>
@@ -1315,6 +1459,12 @@ let currentView = 'table';
 let showNoGWP = false;
 
 async function loadData() {
+  // Default to card view on mobile
+  if (window.innerWidth <= 768) {
+    currentView = 'cards';
+    document.getElementById('btn-table').classList.remove('active');
+    document.getElementById('btn-cards').classList.add('active');
+  }
   try {
     const response = await fetch('india_epds.csv');
     if (!response.ok) throw new Error('CSV not found');
@@ -2125,6 +2275,17 @@ function closeCompare() {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeCompare(); }
 });
+</script>
+
+
+<script>
+function toggleFilters() {
+  const col = document.getElementById('filters-collapsible');
+  const btn = document.getElementById('filter-toggle-btn');
+  const isOpen = col.classList.toggle('open');
+  btn.classList.toggle('active', isOpen);
+  btn.textContent = isOpen ? '⊟ Filters' : '⊞ Filters';
+}
 </script>
 
 </body>
