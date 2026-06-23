@@ -142,4 +142,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add EPDs, report errors, or im
 
 **CC0 1.0 Universal** — This database is dedicated to the public domain. You can copy, modify, distribute, and use the data for any purpose without asking permission or providing attribution (though attribution is appreciated).
 
-*Built by [Gokul Krishna T.B.](https://tbgokulkrishna.wordpress.com) — Senior ESG Executive, independently.*
+*Built by [Gokul Krishna T.B.](https://www.linkedin.com/in/gokul-k-148624117/)*
