@@ -130,6 +130,18 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add EPDs, report errors, or im
 
 ---
 
+## Integrations
+
+open-epd-india plugs into existing LCA and carbon tools as a data source. Ready-to-use adapters are in the [`integrations/`](integrations/) folder.
+
+| Tool | What it does | Folder |
+|---|---|---|
+| [lca-carbon-calculator](https://github.com/upasana-sen/lca-carbon-calculator) | EN 15978 whole-life carbon screening (Streamlit) | [`integrations/lca-carbon-calculator/`](integrations/lca-carbon-calculator/) |
+
+Each integration folder contains the adapter file, tests, and a README with drop-in instructions.
+
+---
+
 ## Related projects
 
 - [EPD SETU](https://www.epdsetu.com/) — IIT Madras EPD support initiative for Indian manufacturers
