@@ -113,6 +113,18 @@ All unit values have been normalized from 31 raw variants to 10 canonical forms 
 
 ---
 
+## Integrations
+
+open-epd-india plugs into existing LCA and carbon tools as a data source. Ready-to-use adapters are in the [`integrations/`](integrations/) folder.
+
+| Tool | What it does | Folder |
+|---|---|---|
+| [lca-carbon-calculator](https://github.com/upasana-sen/lca-carbon-calculator) | EN 15978 whole-life carbon screening (Streamlit) — [live app ↗](https://lca-carbon-calculator-india.streamlit.app) | [`integrations/lca-carbon-calculator/`](integrations/lca-carbon-calculator/) |
+
+Each integration folder contains the adapter file, tests, and a README with drop-in instructions.
+
+---
+
 ## Citing this database
 
 ```
@@ -127,18 +139,6 @@ Or use the **⧉ Cite** button on the website to copy a formatted citation for a
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add EPDs, report errors, or improve category classifications.
-
----
-
-## Integrations
-
-open-epd-india plugs into existing LCA and carbon tools as a data source. Ready-to-use adapters are in the [`integrations/`](integrations/) folder.
-
-| Tool | What it does | Folder |
-|---|---|---|
-| [lca-carbon-calculator](https://github.com/upasana-sen/lca-carbon-calculator) | EN 15978 whole-life carbon screening (Streamlit) | [`integrations/lca-carbon-calculator/`](integrations/lca-carbon-calculator/) |
-
-Each integration folder contains the adapter file, tests, and a README with drop-in instructions.
 
 ---
 
