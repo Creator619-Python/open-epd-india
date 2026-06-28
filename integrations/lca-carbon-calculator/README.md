@@ -2,6 +2,8 @@
 
 Integrates open-epd-india as a native EPD data source in [lca-carbon-calculator](https://github.com/upasana-sen/lca-carbon-calculator) — an open-source whole-life carbon screening tool (EN 15978) by Upasana Sen.
 
+🚀 **[Live app: lca-carbon-calculator-india.streamlit.app](https://lca-carbon-calculator-india.streamlit.app)**
+
 Once wired in, the calculator gains a searchable Indian EPD panel in its Inventory tab — 388 verified EPDs across 21 material categories, no API key, CC0.
 
 ---
@@ -161,6 +163,8 @@ with no changes to the engine.
 388 EPDs · 21 categories · 373 searchable (14 expired, ~5 industrial excluded)
 
 Top categories by count: Steel & Metal · Concrete & Cement · Fibre Cement & Boards · Aluminium · Glass · Flooring & Surfaces
+
+**Live deployment:** https://lca-carbon-calculator-india.streamlit.app
 
 ---
 
