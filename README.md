@@ -119,19 +119,15 @@ open-epd-india plugs into existing LCA and carbon tools as a data source. Ready-
 
 | Tool | What it does | Folder |
 |---|---|---|
-| [lca-carbon-calculator](https://github.com/upasana-sen/lca-carbon-calculator) | EN 15978 whole-life carbon screening (Streamlit) — [live app ↗](https://lca-carbon-calculator-india.streamlit.app) | [`integrations/lca-carbon-calculator/`](integrations/lca-carbon-calculator/) |
+| [lca-carbon-calculator](https://github.com/upasanasen/lca-carbon-calculator) | EN 15978 whole-life carbon screening (Streamlit) — [live app ↗](https://lca-carbon-calculator-india.streamlit.app) | [`integrations/lca-carbon-calculator/`](integrations/lca-carbon-calculator/) |
 
 Each integration folder contains the adapter file, tests, and a README with drop-in instructions.
 
 ---
 
 ## Citing this database
-
-```
 Gokul Krishna T.B. (2026). open-epd-india: India's open EPD database (v1.3.0) [Dataset].
 GitHub. https://github.com/Creator619-Python/open-epd-india
-```
-
 Or use the **⧉ Cite** button on the website to copy a formatted citation for any individual EPD.
 
 ---
@@ -144,7 +140,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add EPDs, report errors, or im
 
 ## Related projects
 
-- [EPD SETU](https://www.epdsetu.com/) — IIT Madras EPD support initiative for Indian manufacturers
 - [Environdec](https://www.environdec.com/) — Source database for all EPDs indexed here
 - [EC3 / openEPD](https://buildingtransparency.org/) — Global embodied carbon database (US-focused)
 
