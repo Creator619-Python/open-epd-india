@@ -1,6 +1,6 @@
 # open-epd-india × lca-carbon-calculator
 
-Integrates open-epd-india as a native EPD data source in [lca-carbon-calculator](https://github.com/upasanasen/lca-carbon-calculator) — an open-source whole-life carbon screening tool (EN 15978) by Upasana Sen.
+Integrates open-epd-india as a native EPD data source in [lca-carbon-calculator](http://github.com/upasanasen/lca-carbon-calculator) — an open-source whole-life carbon screening tool (EN 15978) by Upasana Sen.
 
 🚀 **[Live app: lca-carbon-calculator-india.streamlit.app](https://lca-carbon-calculator-india.streamlit.app)**
 
