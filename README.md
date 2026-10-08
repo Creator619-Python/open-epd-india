@@ -15,7 +15,9 @@ A searchable, downloadable index of all Indian EPDs registered on [Environdec.co
 - Declared unit, life cycle stages, validity dates
 - Direct link to the source EPD on Environdec
 
-**No paywall. No registration. No request form. Just data.**
+**No paywall. No registration. No request form.**
+
+> **Data notice.** All EPD data comes from [The International EPD System®](https://www.environdec.com) (EPD International AB). The EPDs are owned by their original owners and are subject to the [General Terms of Use](https://www.environdec.com/general-terms). GWP values here were extracted by AI and are **not verified**. Always check the linked original EPD before use. See [Data notice](#data-notice).
 
 ---
 
@@ -28,7 +30,7 @@ A searchable, downloadable index of all Indian EPDs registered on [Environdec.co
 | Material categories | 21 |
 | Manufacturers | 139 |
 | Years covered | 2020 – 2026 |
-| License | CC0 1.0 (public domain) |
+| License | Index structure and classifications CC0 1.0; EPD data and values are subject to the source terms (see [Data notice](#data-notice)) |
 
 **Categories:** Acoustic & Insulation · Aggregate & Stone · Aluminium · Brick & Masonry · Chemicals & Waterproofing · Concrete & Cement · Electrical & Electronics · Fibre Cement & Boards · Flooring & Surfaces · Furniture & Fittings · Glass · Gypsum & Plasterboard · Insulation · Paint & Coating · Plastic & Polymer · Refractories · Rubber & Tyres · Solar & Energy · Steel & Metal · Timber & Wood · Building (Whole)
 
@@ -107,7 +109,7 @@ GWP A1-A3 values were extracted from EPD PDFs using a combination of:
 - **Gemini** (primary extraction from PDF tables)
 - **Groq / LLaMA-3.3-70b** (validation and fallback)
 
-Extraction confidence is marked HIGH for unambiguous table reads and MEDIUM for values requiring interpretation. 4 EPDs had no machine-readable GWP value and remain blank.
+Extraction confidence is the model's own rating (HIGH for unambiguous table reads, MEDIUM for values requiring interpretation). It is **not** human verification. No value has been independently checked unless noted in `notes`. 4 EPDs had no machine-readable GWP value and remain blank.
 
 All unit values have been normalized from 31 raw variants to 10 canonical forms (e.g. `kg CO2 eq/1000 kg` → `kg CO2eq/tonne`).
 
@@ -126,7 +128,7 @@ Each integration folder contains the adapter file, tests, and a README with drop
 ---
 
 ## Citing this database
-Gokul Krishna T.B. (2026). open-epd-india: India's open EPD database (v1.3.0) [Dataset].
+Gokul Krishna T.B. (2026). open-epd-india: India's open EPD database (v1.5.0) [Dataset].
 GitHub. https://github.com/Creator619-Python/open-epd-india
 Or use the **⧉ Cite** button on the website to copy a formatted citation for any individual EPD.
 
@@ -140,13 +142,22 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add EPDs, report errors, or im
 
 ## Related projects
 
-- [Environdec](https://www.environdec.com/) — Source database for all EPDs indexed here
+- [The International EPD System®](https://www.environdec.com/) — Source of all EPDs indexed here; data subject to its [General Terms of Use](https://www.environdec.com/general-terms)
 - [EC3 / openEPD](https://buildingtransparency.org/) — Global embodied carbon database (US-focused)
 
 ---
 
+## Data notice
+
+- **Source and ownership.** All EPDs originate from The International EPD System® (EPD International AB), published at environdec.com. Data in an EPD is owned by the original EPD owner. Use of the data is subject to the [International EPD System General Terms of Use](https://www.environdec.com/general-terms), including crediting the International EPD System as the source.
+- **What is CC0.** The project's own contributions, namely the index structure, material categories, canonical unit scheme and flags (`carbon_negative`, `is_expired`, `is_industrial_equipment`), are dedicated to the public domain under CC0 1.0.
+- **What is not CC0.** The EPD data and GWP values themselves are not ours to relicense. Where you use them, follow the source terms and link to the original EPD (`epd_url`).
+- **Status.** The licensing of the extracted values is being clarified with EPD International AB. This notice will be updated with their answer.
+- **No warranty.** Values are AI-extracted and unverified. Do not use them for LCA, certification or procurement without checking the original EPD.
+
 ## License
 
-**CC0 1.0 Universal** — This database is dedicated to the public domain. You can copy, modify, distribute, and use the data for any purpose without asking permission or providing attribution (though attribution is appreciated).
+Index structure and project classifications: **CC0 1.0 Universal**. Code: MIT. EPD data and GWP values: see the [Data notice](#data-notice).
 
 *Built by [Gokul Krishna T.B.](https://www.linkedin.com/in/gokul-k-148624117/)*
+
