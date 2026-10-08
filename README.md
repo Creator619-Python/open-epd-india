@@ -115,18 +115,6 @@ All unit values have been normalized from 31 raw variants to 10 canonical forms 
 
 ---
 
-## Integrations
-
-open-epd-india plugs into existing LCA and carbon tools as a data source. Ready-to-use adapters are in the [`integrations/`](integrations/) folder.
-
-| Tool | What it does | Folder |
-|---|---|---|
-| [lca-carbon-calculator](https://github.com/upasanasen/lca-carbon-calculator) | EN 15978 whole-life carbon screening (Streamlit) — [live app ↗](https://lca-carbon-calculator-india.streamlit.app) | [`integrations/lca-carbon-calculator/`](integrations/lca-carbon-calculator/) |
-
-Each integration folder contains the adapter file, tests, and a README with drop-in instructions.
-
----
-
 ## Citing this database
 Gokul Krishna T.B. (2026). open-epd-india: India's open EPD database (v1.5.0) [Dataset].
 GitHub. https://github.com/Creator619-Python/open-epd-india
@@ -160,4 +148,3 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add EPDs, report errors, or im
 Index structure and project classifications: **CC0 1.0 Universal**. Code: MIT. EPD data and GWP values: see the [Data notice](#data-notice).
 
 *Built by [Gokul Krishna T.B.](https://www.linkedin.com/in/gokul-k-148624117/)*
-
