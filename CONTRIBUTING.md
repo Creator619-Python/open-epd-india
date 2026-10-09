@@ -109,6 +109,13 @@ git push origin main
 
 ---
 
+## Rules for data
+
+- Give values and units exactly as published in the original EPD, and always include `epd_url`, the link to the original record on environdec.com.
+- Do not copy text, tables or figures from EPD documents beyond the data fields in this schema.
+- Say if a value was extracted by AI or read by a person.
+- Entries from other programme operators need their terms checked first. Open an Issue before adding them.
+
 ## What we don't accept
 
 - EPDs from non-Indian manufacturers (out of scope)
