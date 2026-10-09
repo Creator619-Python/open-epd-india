@@ -1290,7 +1290,7 @@
         <span class="gwp-range-sep">–</span>
         <input type="number" id="gwp-max" placeholder="max" step="any">
         <select id="gwp-unit-filter">
-          <option value="">any unit</option>
+          <option value="">any unit group (derived)</option>
           <option value="kg CO2eq/tonne">/ tonne</option>
           <option value="kg CO2eq/kg">/ kg</option>
           <option value="kg CO2eq/m²">/ m²</option>
@@ -1335,16 +1335,17 @@
     <!-- Methodology notice -->
     <div class="methodology-banner">
       <strong>⚠ GWP Extraction Methodology</strong>
+      <b>AI-extracted data from the original published EPD.</b> The data shown here may not be identical to the original EPD. Each entry links to the original EPD record on the International EPD System, which is the only authoritative source.<br>
       GWP A1-A3 values in this database were extracted from EPD PDFs using AI (Google Gemini + Groq / Llama 3.3 70B) in June 2026.
       Values are provided for reference and discovery purposes. Always verify against the source EPD document before use in LCA, green building certifications, or procurement decisions.
       <div class="methodology-grid">
         <div class="methodology-item">
           <span>Source</span>
-          International EPD System (environdec.com) — all Indian EPDs as of June 2026
+          Source: EPD International AB (International EPD System, environdec.com) — all Indian EPDs as of June 2026
         </div>
         <div class="methodology-item">
           <span>Extraction method</span>
-          AI-assisted PDF parsing · 384/388 values extracted · 383 HIGH confidence
+          AI-assisted PDF parsing · 379/388 values shown · 378 rated HIGH by the model · 5 withdrawn pending check
         </div>
         <div class="methodology-item">
           <span>Confidence levels</span>
@@ -1352,7 +1353,7 @@
         </div>
         <div class="methodology-item">
           <span>License</span>
-          Index structure and classifications: CC0. EPD data and values remain the property of the original EPD owners and are subject to the <a href="https://www.environdec.com/general-terms" target="_blank">International EPD System General Terms of Use</a>. Source: The International EPD System® (EPD International AB).
+          Index structure and classifications: CC0. EPD data and values remain the property of the original EPD owners and are subject to the <a href="https://www.environdec.com/general-terms" target="_blank">International EPD System General Terms of Use</a>. Source: EPD International AB.
         </div>
       </div>
     </div>
@@ -1401,14 +1402,15 @@
         <div class="about-card-value">
           All EPDs published by Indian manufacturers on the
           <a href="https://www.environdec.com/library?epd_country=India" target="_blank">International EPD System</a>
-          (environdec.com), collected in June 2026. EPD data is the intellectual property of respective manufacturers and programme operators.
+          (environdec.com), collected in June 2026. Source: EPD International AB. EPD data belongs to the respective EPD owners.
         </div>
       </div>
       <div class="about-card">
         <div class="about-card-label">GWP extraction</div>
         <div class="about-card-value">
+          <b>AI-extracted data from the original published EPD.</b> May not be identical to the original EPD; always check the linked record.<br>
           GWP A1-A3 values were extracted from 388 EPD PDFs using AI (Google Gemini 2.5 Flash + Llama 3.3 70B via Groq).
-          384 values extracted. 383 rated HIGH confidence by the model.
+          379 values shown. 378 rated HIGH confidence by the model. 5 values are withdrawn until checked against the original EPD.
           Always verify against the source EPD before formal use.
         </div>
       </div>
@@ -1439,7 +1441,7 @@
     <div class="footer-left">
       Built by <a href="https://www.linkedin.com/in/gokul-k-148624117/" target="_blank">Gokul Krishna T.B.</a>
       · Index &amp; classifications: CC0 · Code: MIT<br>
-      EPD data: <a href="https://www.environdec.com" target="_blank">The International EPD System®</a> (EPD International AB), subject to its General Terms of Use
+      Source: EPD International AB (<a href="https://www.environdec.com" target="_blank">International EPD System®</a>), subject to its General Terms of Use
       · Last updated: <span id="last-updated">—</span>
     </div>
     <div class="footer-right">
@@ -1457,6 +1459,10 @@ let sortCol = null;
 let sortAsc = true;
 // ── View / compare / filter state (declared here so all functions can access) ──
 let compareSet = new Set();
+// Show the unit as declared in the original EPD (not our derived unit group)
+function unitLabel(epd) {
+  return epd.declared_unit ? 'kg CO2 eq per ' + epd.declared_unit : '';
+}
 let currentView = 'table';
 let showNoGWP = false;
 
@@ -1521,8 +1527,8 @@ function updateStats() {
   document.getElementById('category-count').textContent = cats.size;
   const mfrs = new Set(allEPDs.map(e => e.manufacturer_name).filter(Boolean));
   document.getElementById('manufacturer-count').textContent = mfrs.size;
-  document.getElementById('last-updated').textContent = 'Jun 2026';
-  document.getElementById('last-updated').title = 'Database last updated June 14, 2026';
+  document.getElementById('last-updated').textContent = 'Oct 2026';
+  document.getElementById('last-updated').title = 'Database last updated October 9, 2026';
 }
 
 function populateFilters() {
@@ -1695,7 +1701,7 @@ function renderTable(epds) {
   const rows = epds.map((epd, i) => {
     const gwpRaw = epd.gwp_a1a3;
     const gwp = gwpRaw && gwpRaw !== 'None' ? parseFloat(gwpRaw).toFixed(3) : '—';
-    const unit = epd.gwp_unit || 'kg CO2 eq';
+    const unit = unitLabel(epd) || 'kg CO2 eq';
     const conf = epd.extraction_confidence || '';
     const stages = epd.life_cycle_stages || '—';
     const url = epd.epd_url || '#';
@@ -1806,7 +1812,16 @@ loadData();
     </div>
     <div style="padding:20px 24px;overflow-y:auto;flex:1;font-size:12px;line-height:1.8;">
       <div style="margin-bottom:20px;">
-        <span style="background:var(--accent);color:#000;border-radius:3px;padding:2px 8px;font-weight:700;letter-spacing:0.05em;">v1.5.0</span>
+        <span style="background:var(--accent);color:#000;border-radius:3px;padding:2px 8px;font-weight:700;letter-spacing:0.05em;">v1.5.1</span>
+        <span style="color:var(--text-muted);margin-left:8px;">October 9, 2026</span>
+        <ul style="list-style:none;padding:0;margin:8px 0 0;color:var(--text-muted);">
+          <li style="padding:2px 0;">→ Licence and attribution corrected: EPD data belongs to the EPD owners; Source: EPD International AB</li>
+          <li style="padding:2px 0;">→ Units now shown as declared in the original EPD; derived unit group kept for filtering only</li>
+          <li style="padding:2px 0;">→ AI-extraction disclaimer added; 5 values withdrawn pending check against the original EPD</li>
+        </ul>
+      </div>
+      <div style="margin-bottom:20px;">
+        <span style="background:var(--tag-bg);color:var(--text-muted);border:1px solid var(--border);border-radius:3px;padding:2px 8px;font-weight:700;letter-spacing:0.05em;">v1.5.0</span>
         <span style="color:var(--text-muted);margin-left:8px;">June 23, 2026</span>
         <ul style="list-style:none;padding:0;margin:8px 0 0;color:var(--text-muted);">
           <li style="padding:2px 0;">→ Compare mode — select up to 3 EPDs side by side</li>
@@ -1967,7 +1982,7 @@ function openDetail(idx) {
   const gwpRaw = epd.gwp_a1a3;
   const gwp = gwpRaw && gwpRaw !== 'None' ? parseFloat(gwpRaw).toLocaleString('en-IN', {maximumFractionDigits: 3}) : '—';
   document.getElementById('dm-gwp').textContent = gwp;
-  document.getElementById('dm-gwp-unit').textContent = epd.gwp_unit || '';
+  document.getElementById('dm-gwp-unit').textContent = unitLabel(epd);
   document.getElementById('dm-declared-unit').textContent = epd.declared_unit || '—';
   document.getElementById('dm-category').textContent = epd.material_category || '—';
   document.getElementById('dm-manufacturer').textContent = epd.manufacturer_name || '—';
@@ -2107,7 +2122,7 @@ function renderCards(epds) {
   const cards = epds.map((epd, i) => {
     const gwpRaw = epd.gwp_a1a3;
     const gwp = gwpRaw && gwpRaw !== 'None' ? parseFloat(gwpRaw).toLocaleString('en-IN', {maximumFractionDigits: 3}) : '—';
-    const unit = epd.gwp_unit || '';
+    const unit = unitLabel(epd);
     const carbonNeg = epd.carbon_negative === 'True';
     const industrial = epd.is_industrial_equipment === 'True';
     const isFullLC = (epd.life_cycle_stages || '').includes('C');
@@ -2208,7 +2223,7 @@ function openCompare() {
   const fields = [
     { label: 'Product', key: 'material_name' },
     { label: 'GWP A1-A3', key: '_gwp' },
-    { label: 'Unit', key: 'gwp_unit' },
+    { label: 'Unit group (derived)', key: 'gwp_unit' },
     { label: 'Declared Unit', key: 'declared_unit' },
     { label: 'Category', key: 'material_category' },
     { label: 'Manufacturer', key: 'manufacturer_name' },
