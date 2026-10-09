@@ -17,6 +17,10 @@ A searchable, downloadable index of all Indian EPDs registered on [Environdec.co
 
 **No paywall. No registration. No request form.**
 
+> **Source: EPD International AB.**
+>
+> **AI-extracted data from the original published EPD.** Values may not be identical to the original EPD record. Every entry links to the original EPD on the International EPD System, which is the authoritative source.
+>
 > **Data notice.** All EPD data comes from [The International EPD System®](https://www.environdec.com) (EPD International AB). The EPDs are owned by their original owners and are subject to the [General Terms of Use](https://www.environdec.com/general-terms). GWP values here were extracted by AI and are **not verified**. Always check the linked original EPD before use. See [Data notice](#data-notice).
 
 ---
@@ -26,7 +30,7 @@ A searchable, downloadable index of all Indian EPDs registered on [Environdec.co
 | Field | Value |
 |---|---|
 | Total EPDs | 388 |
-| GWP A1-A3 values | 384 |
+| GWP A1-A3 values shown | 379 |
 | Material categories | 21 |
 | Manufacturers | 139 |
 | Years covered | 2020 – 2026 |
@@ -82,14 +86,14 @@ print(steel_per_tonne['gwp_a1a3'].describe())
 |---|---|
 | `registration_number` | Environdec registration ID (e.g. EPD-IES-0031470:004) |
 | `material_name` | Product name as declared in the EPD |
-| `material_category` | Material category (21 categories, classified by this project) |
+| `material_category` | **Derived by this project** (not EPD data): material category, 21 groups |
 | `manufacturer_name` | EPD owner/manufacturer |
 | `product_category` | Environdec product category |
 | `geographical_scope` | India / Global / Asia |
 | `country_of_origin` | Country of manufacture |
 | `gwp_a1a3` | GWP total for life cycle stages A1-A3 (kg CO₂eq) |
-| `gwp_unit` | Declared unit for GWP value (normalized canonical form) |
-| `declared_unit` | Original declared unit from the EPD |
+| `gwp_unit` | **Derived by this project** (not EPD data): a grouped unit label used only for filtering. The unit as published is `declared_unit` |
+| `declared_unit` | Declared unit exactly as published in the EPD |
 | `life_cycle_stages` | Stages covered (A1-A3, A1-C4, etc.) |
 | `epd_programme_operator` | Programme operator (EPD International AB, etc.) |
 | `year_published` | Year the EPD was registered |
@@ -97,7 +101,9 @@ print(steel_per_tonne['gwp_a1a3'].describe())
 | `epd_url` | Direct URL to the EPD on Environdec |
 | `extraction_confidence` | HIGH / MEDIUM — confidence of AI GWP extraction |
 | `notes` | Extraction notes and edge cases |
-| `carbon_negative` | True if GWP A1-A3 is negative (e.g. timber biogenic carbon) |
+| `carbon_negative` | Derived by this project: True if GWP A1-A3 is negative (e.g. timber biogenic carbon) |
+| `source` | Source: EPD International AB |
+| `disclaimer` | AI-extracted data from the original published EPD. |
 | `is_expired` | True if valid_until < current year |
 | `is_industrial_equipment` | True if GWP > 1,000,000 kg CO₂eq (whole-equipment EPDs) |
 
@@ -111,12 +117,14 @@ GWP A1-A3 values were extracted from EPD PDFs using a combination of:
 
 Extraction confidence is the model's own rating (HIGH for unambiguous table reads, MEDIUM for values requiring interpretation). It is **not** human verification. No value has been independently checked unless noted in `notes`. 4 EPDs had no machine-readable GWP value and remain blank.
 
-All unit values have been normalized from 31 raw variants to 10 canonical forms (e.g. `kg CO2 eq/1000 kg` → `kg CO2eq/tonne`).
+The site shows each value with the unit as declared in the original EPD. A derived `gwp_unit` group (e.g. `1000 kg` and `1 tonne` grouped as `kg CO2eq/tonne`) is used only for filtering, and is not EPD data.
+
+Five entries (EPD-IES-0009817:001, EPD-IES-0009807:001, EPD-IES-0006086:001, EPD-IES-0001419:001, EPD-IES-0002108:001) have their GWP value withdrawn because the unit did not match the declared unit. They will return once checked against the original EPD.
 
 ---
 
 ## Citing this database
-Gokul Krishna T.B. (2026). open-epd-india: India's open EPD database (v1.5.0) [Dataset].
+Gokul Krishna T.B. (2026). open-epd-india: India's open EPD database (v1.5.1) [Dataset].
 GitHub. https://github.com/Creator619-Python/open-epd-india
 Or use the **⧉ Cite** button on the website to copy a formatted citation for any individual EPD.
 
